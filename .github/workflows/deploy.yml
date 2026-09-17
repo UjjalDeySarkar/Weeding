@@ -50,6 +50,7 @@ jobs:
       contents: read
       pull-requests: write
     env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
       TARGET: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && 'production' || 'preview' }}
       PROD_FLAG: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && '--prod' || '' }}
     environment:
@@ -62,28 +63,43 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
 
-      - name: Check the Vercel token is set
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      - name: Install Vercel CLI
         run: |
-          if [ -z "$VERCEL_TOKEN" ]; then
+          npm install --global "$VERCEL_CLI"
+          # `vc` = vercel with the token attached (spaces or line breaks pasted into the secret are ignored)
+          cat > "$RUNNER_TEMP/vc" <<'SCRIPT'
+          #!/usr/bin/env bash
+          exec vercel "$@" --token="$(printf '%s' "$VERCEL_TOKEN" | tr -d '[:space:]')"
+          SCRIPT
+          chmod +x "$RUNNER_TEMP/vc"
+          echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
+
+      - name: Check the Vercel token
+        run: |
+          if [ -z "$(printf '%s' "$VERCEL_TOKEN" | tr -d '[:space:]')" ]; then
             echo "::error::Add a VERCEL_TOKEN repository secret (Settings → Secrets and variables → Actions)."
             exit 1
           fi
-
-      - name: Install Vercel CLI
-        run: npm install --global "$VERCEL_CLI"
+          if ! user=$(vc whoami 2>/dev/null | tail -n 1); then
+            echo "::error::Vercel rejected VERCEL_TOKEN. Create a new token at vercel.com/account/settings/tokens and update the secret."
+            exit 1
+          fi
+          echo "::notice::VERCEL_TOKEN belongs to Vercel user $user"
+          if ! vc project inspect ujjal-weds-rupsha > /dev/null 2>&1; then
+            echo "::error::$user's token can't open the ujjal-weds-rupsha project. Create the token from an account in the heka4 team, with its scope set to heka4, and update the secret."
+            exit 1
+          fi
 
       - name: Pull project settings
-        run: vercel pull --yes --environment="$TARGET" --token="${{ secrets.VERCEL_TOKEN }}"
+        run: vc pull --yes --environment="$TARGET"
 
       - name: Build
-        run: vercel build $PROD_FLAG --token="${{ secrets.VERCEL_TOKEN }}"
+        run: vc build $PROD_FLAG
 
       - name: Deploy
         id: deploy
         run: |
-          vercel deploy --prebuilt $PROD_FLAG --format json --token="${{ secrets.VERCEL_TOKEN }}" > deployment.json
+          vc deploy --prebuilt $PROD_FLAG --format json > deployment.json
           url=$(node -e '
             const text = require("node:fs").readFileSync("deployment.json", "utf8")
             const out = JSON.parse(text.slice(text.indexOf("{")))
