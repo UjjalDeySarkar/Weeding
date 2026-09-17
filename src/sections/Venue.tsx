@@ -1,5 +1,5 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
-import { motion } from 'motion/react'
+import { animate, motion, useMotionValue, useReducedMotion, useTransform } from 'motion/react'
 import { Check, CircleParking, Copy, MapPin, Navigation, RotateCw } from 'lucide-react'
 import { IllustratedMap } from '@/components/map/IllustratedMap'
 import { MapLoading } from '@/components/map/MapLoading'
@@ -61,7 +61,7 @@ function JourneyRow({ journey, active, onHover, onSelect }: JourneyRowProps) {
   const name = pick(journey.name)
 
   return (
-    <li className="flex items-center gap-2">
+    <li className="flex items-center gap-1.5 sm:gap-2">
       <button
         type="button"
         aria-pressed={active}
@@ -70,21 +70,21 @@ function JourneyRow({ journey, active, onHover, onSelect }: JourneyRowProps) {
         onPointerEnter={(e) => e.pointerType === 'mouse' && onHover(journey.id)}
         onPointerLeave={(e) => e.pointerType === 'mouse' && onHover(null)}
         className={cn(
-          'flex flex-1 cursor-pointer items-center gap-3 rounded-xl border-2 px-3 py-2.5 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zari',
+          'flex min-w-0 flex-1 cursor-pointer items-center gap-2.5 rounded-xl border-2 px-2 py-2 text-left transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zari sm:gap-3 sm:px-3 sm:py-2.5',
           active ? 'bg-paper-deep' : 'border-transparent hover:bg-paper-deep/60',
         )}
         style={active ? { borderColor: color } : undefined}
       >
         <span
-          className="grid size-10 shrink-0 place-items-center rounded-full border-2 bg-paper"
+          className="grid size-9 shrink-0 place-items-center rounded-full border-2 bg-paper sm:size-10"
           style={{ borderColor: color, color }}
         >
-          <Icon className="size-5" aria-hidden="true" />
+          <Icon className="size-4 sm:size-5" aria-hidden="true" />
         </span>
         <span className="min-w-0">
-          <span className="block font-medium">{name}</span>
+          <span className="block leading-snug font-medium max-sm:text-[15px]">{name}</span>
           {route && (
-            <span className="block text-sm text-muted">
+            <span className="block text-[13px] leading-snug text-muted sm:text-sm">
               {t.venue.drive(formatDecimal(route.distanceKm, lang), formatNumber(route.durationMin, lang))}
             </span>
           )}
@@ -95,7 +95,7 @@ function JourneyRow({ journey, active, onHover, onSelect }: JourneyRowProps) {
         target="_blank"
         rel="noreferrer"
         aria-label={t.venue.directionsFrom(name)}
-        className="grid size-10 shrink-0 place-items-center rounded-full border border-sindoor/30 text-sindoor transition-colors hover:bg-sindoor hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zari"
+        className="grid size-9 shrink-0 place-items-center rounded-full border border-sindoor/30 text-sindoor transition-colors sm:size-10 hover:bg-sindoor hover:text-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zari"
       >
         <Navigation className="size-4" aria-hidden="true" />
       </a>
@@ -113,6 +113,20 @@ export function Venue() {
   const [flight, setFlight] = useState(0)
   const [copied, setCopied] = useState(false)
   const active = hovered ?? selected
+  const reduceMotion = useReducedMotion()
+  const rotation = useMotionValue(0)
+  // Mobile browsers draw some layers (scroll areas, the map canvas) straight through
+  // backface-visibility, which shows the far side mirrored, so hide it once the card turns past edge-on
+  const frontVisibility = useTransform(rotation, (r) => (r < 90 ? 'visible' : 'hidden'))
+  const backVisibility = useTransform(rotation, (r) => (r < 90 ? 'hidden' : 'visible'))
+
+  useEffect(() => {
+    const controls = animate(rotation, flipped ? 180 : 0, {
+      duration: reduceMotion ? 0 : 0.9,
+      ease: [0.65, 0, 0.35, 1],
+    })
+    return () => controls.stop()
+  }, [flipped, reduceMotion, rotation])
 
   useEffect(() => {
     if (!copied) return
@@ -139,9 +153,9 @@ export function Venue() {
 
   return (
     <Section id="venue" eyebrow={t.venue.eyebrow} title={t.venue.title} className="overflow-x-clip bg-paper-deep">
-      <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10">
+      <div className="grid grid-cols-[minmax(0,1fr)] items-start gap-10 sm:gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-10">
         <Reveal>
-          <div className="relative -rotate-1 rounded-md bg-paper p-6 shadow-[0_40px_70px_-35px_rgba(43,27,24,0.6)] ring-1 ring-ink/10 max-[360px]:p-5 sm:p-8">
+          <div className="relative -rotate-1 rounded-md bg-paper p-5 shadow-[0_40px_70px_-35px_rgba(43,27,24,0.6)] ring-1 ring-ink/10 sm:p-8">
             <Postmark date={formatDotDate(wedding.date, lang)} city={pick(wedding.city).split(',')[0]} />
 
             <p className="relative mt-16 text-xs tracking-[0.3em] text-zari uppercase sm:mt-0 sm:pr-36 bn:text-sm">
@@ -205,16 +219,17 @@ export function Venue() {
 
         <Reveal delay={0.1}>
           <div className="perspective-[1800px]">
-            <motion.div
-              className="relative transform-3d"
-              animate={{ rotateY: flipped ? 180 : 0 }}
-              transition={{ duration: 0.9, ease: [0.65, 0, 0.35, 1] }}
-            >
-              <div className={cn('backface-hidden', flipped && 'pointer-events-none')} inert={flipped}>
+            <motion.div className="relative transform-3d" style={{ rotateY: rotation }}>
+              <motion.div
+                className={cn('backface-hidden', flipped && 'pointer-events-none')}
+                style={{ visibility: frontVisibility }}
+                inert={flipped}
+              >
                 <IllustratedMap active={active} onHover={setHovered} onSelect={select} />
-              </div>
-              <div
+              </motion.div>
+              <motion.div
                 className={cn('absolute inset-0 rotate-y-180 backface-hidden', !flipped && 'pointer-events-none')}
+                style={{ visibility: backVisibility }}
                 inert={!flipped}
               >
                 <div className="stamp size-full bg-[#efe0c4] shadow-md">
@@ -226,11 +241,11 @@ export function Venue() {
                     )}
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </motion.div>
           </div>
 
-          <div className="mt-6 flex justify-center">
+          <div className="mt-5 flex justify-center sm:mt-6">
             <button
               type="button"
               onClick={flip}

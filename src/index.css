@@ -181,6 +181,13 @@
   line-height: 1.35;
 }
 
+@media (max-width: 639px) {
+  .maplibregl-ctrl-attrib {
+    font-size: 8.5px;
+    line-height: 1.25;
+  }
+}
+
 /* Letter-spacing breaks up Bengali conjuncts — unlayered so it beats tracking-* utilities */
 :lang(bn) {
   letter-spacing: normal;

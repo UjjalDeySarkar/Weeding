@@ -94,7 +94,6 @@ const en = {
     north: 'N',
     km: (km: string) => `${km} km`,
     credit: 'Routes © OpenStreetMap contributors',
-    swipe: 'Swipe to explore',
   },
   footer: {
     blessing: 'Your blessings are all we seek',
@@ -213,7 +212,6 @@ const bn: Strings = {
     north: 'উ',
     km: (km) => `${km} কিমি`,
     credit: 'পথের তথ্য © ওপেনস্ট্রিটম্যাপ অবদানকারীরা',
-    swipe: 'সরিয়ে দেখুন',
   },
   footer: {
     blessing: 'আপনাদের আশীর্বাদই আমাদের একমাত্র কাম্য',
