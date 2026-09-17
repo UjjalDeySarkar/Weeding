@@ -1,0 +1,199 @@
+@import 'tailwindcss';
+
+/* `bn:` variant — applies when the element's language is Bengali, e.g. bn:text-sm */
+@custom-variant bn (&:lang(bn));
+
+/*
+ * "Lal Paar" theme — the red-bordered white Bengali saree:
+ * rice-paper white, sindoor red, zari gold, marigold, haldi and durba green.
+ */
+@theme {
+  /* Latin faces first; Bengali characters fall through to Tiro Bangla / Galada */
+  --font-display: 'Cormorant Garamond', 'Tiro Bangla', ui-serif, Georgia, serif;
+  --font-script: 'Great Vibes', 'Galada', cursive;
+  --font-sans: 'Jost', 'Tiro Bangla', ui-sans-serif, system-ui, sans-serif;
+  --font-bengali: 'Tiro Bangla', 'Noto Serif Bengali', serif;
+  --font-bengali-display: 'Galada', 'Tiro Bangla', serif;
+
+  --color-paper: #fbf5ea;
+  --color-paper-deep: #f2e6d0;
+  --color-sindoor: #a51c1c;
+  --color-sindoor-deep: #6d0e13;
+  --color-zari: #c39035;
+  --color-zari-light: #ebcb85;
+  --color-marigold: #f0a030;
+  --color-marigold-deep: #d9731a;
+  --color-haldi: #e9b93a;
+  --color-durba: #35603a;
+  --color-leaf: #5b8a3c;
+  --color-neel: #29497a;
+  --color-pata: #f4e3c1;
+  --color-ink: #2b1b18;
+  --color-muted: #75605a;
+
+  --animate-sway: sway 5s ease-in-out infinite;
+  --animate-turn: turn 90s linear infinite;
+  --animate-marquee: marquee 45s linear infinite;
+
+  @keyframes sway {
+    0%,
+    100% {
+      rotate: -2.5deg;
+    }
+    50% {
+      rotate: 2.5deg;
+    }
+  }
+
+  @keyframes turn {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      translate: -50% 0;
+    }
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+  }
+
+  /* Handmade-paper grain over the whole page */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.55;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.42 0 0 0 0 0.27 0 0 0 0 0.18 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  ::selection {
+    @apply bg-zari-light text-sindoor-deep;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 rounded-full px-7 py-3 text-sm font-medium tracking-wider uppercase transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zari disabled:cursor-not-allowed disabled:opacity-50 bn:text-base;
+  }
+
+  .btn-primary {
+    @apply bg-sindoor text-paper hover:bg-sindoor-deep;
+  }
+
+  .btn-outline {
+    @apply border border-sindoor/30 text-sindoor hover:bg-sindoor hover:text-paper;
+  }
+
+  .btn-zari {
+    @apply bg-zari text-sindoor-deep hover:bg-zari-light;
+  }
+}
+
+/* Red saree border with a woven zari motif */
+@utility lal-paar {
+  background:
+    linear-gradient(var(--color-zari) 0 0) left 0 top 5px / 100% 1px no-repeat,
+    linear-gradient(var(--color-zari) 0 0) left 0 bottom 5px / 100% 1px no-repeat,
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='28' viewBox='0 0 24 28'%3E%3Cpath d='M12 8 L16 14 L12 20 L8 14Z' fill='%23c39035'/%3E%3Ccircle cx='0' cy='14' r='1.5' fill='%23c39035'/%3E%3Ccircle cx='24' cy='14' r='1.5' fill='%23c39035'/%3E%3C/svg%3E")
+      left center / 24px 28px repeat-x,
+    var(--color-sindoor);
+}
+
+/* Kantha running stitch, tiles vertically */
+@utility kantha-thread {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='80' viewBox='0 0 24 80'%3E%3Cpath d='M12 0 C 22 20 22 20 12 40 C 2 60 2 60 12 80' fill='none' stroke='%23a51c1c' stroke-width='2.2' stroke-linecap='round' stroke-dasharray='6 6'/%3E%3C/svg%3E")
+    center top / 24px 80px repeat-y;
+}
+
+/* Patachitra scroll: leafy vine down the sides, tiles vertically */
+@utility pata-vine {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='56' viewBox='0 0 28 56'%3E%3Crect width='28' height='56' fill='%23e9b93a'/%3E%3Cpath d='M14 0 C 6 14 6 14 14 28 C 22 42 22 42 14 56' fill='none' stroke='%232b1b18' stroke-width='1.6'/%3E%3Cpath d='M8.5 14 C 13 8 19 7 23 10 C 20 16 14 17 8.5 14Z' fill='%235b8a3c' stroke='%232b1b18' stroke-width='1'/%3E%3Cpath d='M19.5 42 C 15 36 9 35 5 38 C 8 44 14 45 19.5 42Z' fill='%235b8a3c' stroke='%232b1b18' stroke-width='1'/%3E%3Ccircle cx='21' cy='27' r='2.3' fill='%23a51c1c' stroke='%232b1b18' stroke-width='.8'/%3E%3Ccircle cx='7' cy='55' r='2.3' fill='%23a51c1c' stroke='%232b1b18' stroke-width='.8'/%3E%3Ccircle cx='7' cy='1' r='2.3' fill='%23a51c1c' stroke='%232b1b18' stroke-width='.8'/%3E%3C/svg%3E")
+    center top / 100% auto repeat-y;
+}
+
+/* Patachitra scroll: sawtooth band between painted panels, tiles horizontally */
+@utility pata-band {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='20' viewBox='0 0 40 20'%3E%3Crect width='40' height='20' fill='%23e9b93a'/%3E%3Cpath d='M2 18.5 L10 4 L18 18.5Z' fill='%23a51c1c' stroke='%232b1b18' stroke-width='1'/%3E%3Cpath d='M22 1.5 L30 16 L38 1.5Z' fill='%235b8a3c' stroke='%232b1b18' stroke-width='1'/%3E%3Ccircle cx='10' cy='14' r='1.6' fill='%23fbf5ea'/%3E%3Ccircle cx='30' cy='6' r='1.6' fill='%23fbf5ea'/%3E%3Cpath d='M0 1H40M0 19H40' stroke='%232b1b18' stroke-width='2'/%3E%3C/svg%3E")
+    left center / auto 100% repeat-x;
+}
+
+/* Row of mango leaves for the toran */
+@utility toran-leaves {
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='30' height='26' viewBox='0 0 30 26'%3E%3Cpath d='M15 2 C 24 8 22 18 15 25 C 8 18 6 8 15 2Z' fill='%235b8a3c'/%3E%3Cpath d='M15 4 L15 22' stroke='%2335603a' stroke-width='1'/%3E%3C/svg%3E")
+    left top / 30px 26px repeat-x;
+}
+
+/* Scalloped top edge */
+@utility scallop-t {
+  --r: 14px;
+  mask:
+    radial-gradient(var(--r) at 50% var(--r), #000 97%, #0000) 50% 0 / calc(2 * var(--r)) calc(2 * var(--r)) repeat-x,
+    linear-gradient(#000 0 0) bottom / 100% calc(100% - var(--r)) no-repeat;
+}
+
+/* Perforated postage-stamp edge */
+@utility stamp {
+  --r: 7px;
+  padding: calc(2 * var(--r));
+  mask:
+    radial-gradient(var(--r), #0000 97%, #000) round calc(-1.5 * var(--r)) calc(-1.5 * var(--r)) /
+      calc(3 * var(--r)) calc(3 * var(--r)),
+    linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--r)) calc(100% - 3 * var(--r));
+}
+
+/* Night sky behind the globe */
+@utility starfield {
+  background-color: #0b1230;
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 130px 80px, #ffe9b0 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 60px 150px, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 180px 20px, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 90px 110px, #cfd8ff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 160px 170px, #ffe9b0 50%, transparent 51%),
+    radial-gradient(ellipse at 50% 115%, #4a1f3a 0%, transparent 60%);
+  background-size:
+    200px 200px,
+    200px 200px,
+    200px 200px,
+    200px 200px,
+    200px 200px,
+    200px 200px,
+    100% 100%;
+}
+
+/* Map credits must stay visible (EOxCloudless licence) — keep them small so they don't cover the map */
+.maplibregl-ctrl-attrib {
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+/* Letter-spacing breaks up Bengali conjuncts — unlayered so it beats tracking-* utilities */
+:lang(bn) {
+  letter-spacing: normal;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  ::before,
+  ::after {
+    animation: none !important;
+  }
+}
