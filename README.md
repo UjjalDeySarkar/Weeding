@@ -180,16 +180,28 @@ scripts/
 ├── fetch-venue-routes.mjs   # OSRM routes → src/config/venue-routes.json
 └── make-shehnai.py          # renders public/audio/shehnai.mp3
 docs/                        # README banner and screenshots
+.github/workflows/deploy.yml # CI: lint, build and deploy to Vercel
 ```
 
 ## ☁️ Deploy
 
-It's a static site, so any static host works. With Vercel:
+Live at **[ujjal-weds-rupsha.vercel.app](https://ujjal-weds-rupsha.vercel.app)**, deployed automatically by GitHub Actions
+(`.github/workflows/deploy.yml`):
+
+| When | What happens |
+| --- | --- |
+| Push to `main` | Lint → build → **production** deploy |
+| Pull request | Lint → build → **preview** deploy, with the link posted on the PR |
+| Actions → Deploy → *Run workflow* | Production from `main`, preview from any other branch |
+
+The workflow needs one repository secret, `VERCEL_TOKEN` (create it at
+[vercel.com/account/settings/tokens](https://vercel.com/account/settings/tokens), scoped to the project's team).
+
+It's a static site, so any static host works. To deploy by hand with the Vercel CLI:
 
 ```bash
-npm i -g vercel
-vercel          # preview
-vercel --prod   # production
+npx vercel          # preview
+npx vercel --prod   # production
 ```
 
 ## 🙏 Credits

@@ -1,0 +1,114 @@
+# Lint and build every change, then deploy it to Vercel:
+#   push to main        → production (https://ujjal-weds-rupsha.vercel.app)
+#   pull request        → preview, with the link posted on the PR
+#   manual run (Actions → Deploy → Run workflow) → production from main, preview from any other branch
+#
+# Needs one repository secret: VERCEL_TOKEN (vercel.com/account/settings/tokens, scoped to the heka4 team).
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # From .vercel/project.json — identifiers, not credentials
+  VERCEL_ORG_ID: team_I0O4WS7Cjl4UOHSaeiUDepzr
+  VERCEL_PROJECT_ID: prj_GpD6NqivGIWfq04N0AEJGgIxobg6
+  VERCEL_CLI: vercel@59.20.0
+  NODE_VERSION: 24
+
+jobs:
+  check:
+    name: Lint & build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run build
+
+  deploy:
+    name: Deploy to Vercel
+    needs: check
+    # Secrets aren't shared with pull requests from forks
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+      TARGET: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && 'production' || 'preview' }}
+      PROD_FLAG: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && '--prod' || '' }}
+    environment:
+      name: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && 'production' || 'preview' }}
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - name: Check the Vercel token is set
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "::error::Add a VERCEL_TOKEN repository secret (Settings → Secrets and variables → Actions)."
+            exit 1
+          fi
+
+      - name: Install Vercel CLI
+        run: npm install --global "$VERCEL_CLI"
+
+      - name: Pull project settings
+        run: vercel pull --yes --environment="$TARGET" --token="${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Build
+        run: vercel build $PROD_FLAG --token="${{ secrets.VERCEL_TOKEN }}"
+
+      - name: Deploy
+        id: deploy
+        run: |
+          vercel deploy --prebuilt $PROD_FLAG --format json --token="${{ secrets.VERCEL_TOKEN }}" > deployment.json
+          url=$(node -e '
+            const text = require("node:fs").readFileSync("deployment.json", "utf8")
+            const out = JSON.parse(text.slice(text.indexOf("{")))
+            const url = out.deployment?.url ?? out.url
+            console.log(url.startsWith("http") ? url : `https://${url}`)
+          ')
+          if [ "$TARGET" = "production" ]; then url="https://ujjal-weds-rupsha.vercel.app"; fi
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "### Deployed to $TARGET: $url" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Post the preview link on the pull request
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v8
+        env:
+          PREVIEW_URL: ${{ steps.deploy.outputs.url }}
+        with:
+          script: |
+            const marker = '<!-- vercel-preview -->'
+            const body = `${marker}\n🪷 **Preview is ready:** ${process.env.PREVIEW_URL}\n\n<sub>Commit ${context.sha.slice(0, 7)}</sub>`
+            const { owner, repo } = context.repo
+            const issue_number = context.issue.number
+            const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number })
+            const existing = comments.find((c) => c.body?.includes(marker))
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body })
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body })
+            }
