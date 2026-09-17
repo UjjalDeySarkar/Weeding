@@ -3,7 +3,8 @@
 #   pull request        → preview, with the link posted on the PR
 #   manual run (Actions → Deploy → Run workflow) → production from main, preview from any other branch
 #
-# Needs one repository secret: VERCEL_TOKEN (vercel.com/account/settings/tokens, scoped to the heka4 team).
+# Needs one repository secret: VERCEL_TOKEN, created at vercel.com/account/settings/tokens by a member of the
+# heka4 team, with its scope set to heka4.
 name: Deploy
 
 on:
@@ -18,6 +19,11 @@ concurrency:
 
 permissions:
   contents: read
+
+defaults:
+  run:
+    # explicit bash turns on pipefail, so a failing command in a pipe fails the step
+    shell: bash
 
 env:
   # From .vercel/project.json — identifiers, not credentials
@@ -66,12 +72,21 @@ jobs:
       - name: Install Vercel CLI
         run: |
           npm install --global "$VERCEL_CLI"
-          # `vc` = vercel with the token attached (spaces or line breaks pasted into the secret are ignored)
+          # vc = vercel with the token attached (spaces or line breaks pasted into the secret are ignored)
           cat > "$RUNNER_TEMP/vc" <<'SCRIPT'
           #!/usr/bin/env bash
           exec vercel "$@" --token="$(printf '%s' "$VERCEL_TOKEN" | tr -d '[:space:]')"
           SCRIPT
-          chmod +x "$RUNNER_TEMP/vc"
+          # explain <what> <logs…> = turn a Vercel CLI failure into a readable error on the run page
+          cat > "$RUNNER_TEMP/explain" <<'SCRIPT'
+          #!/usr/bin/env bash
+          what=$1; shift
+          msg=$(cat "$@" 2>/dev/null | grep -m1 -E '^Error' || true)
+          [ -n "$msg" ] || msg=$(cat "$@" 2>/dev/null | grep -m1 -oE '"message": *"[^"]*"' | sed -E 's/"message": *"(.*)"/\1/' || true)
+          echo "::error::$what failed: ${msg:-see the log above}"
+          exit 1
+          SCRIPT
+          chmod +x "$RUNNER_TEMP/vc" "$RUNNER_TEMP/explain"
           echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
 
       - name: Check the Vercel token
@@ -80,26 +95,20 @@ jobs:
             echo "::error::Add a VERCEL_TOKEN repository secret (Settings → Secrets and variables → Actions)."
             exit 1
           fi
-          if ! user=$(vc whoami 2>/dev/null | tail -n 1); then
-            echo "::error::Vercel rejected VERCEL_TOKEN. Create a new token at vercel.com/account/settings/tokens and update the secret."
-            exit 1
-          fi
-          echo "::notice::VERCEL_TOKEN belongs to Vercel user $user"
-          if ! vc project inspect ujjal-weds-rupsha > /dev/null 2>&1; then
-            echo "::error::$user's token can't open the ujjal-weds-rupsha project. Create the token from an account in the heka4 team, with its scope set to heka4, and update the secret."
-            exit 1
-          fi
+          vc whoami > whoami.log 2>&1 || { cat whoami.log; explain "Vercel token check" whoami.log; }
+          echo "::notice::VERCEL_TOKEN belongs to Vercel user $(grep -vE '^(Vercel CLI|<|[[:space:]]*$)' whoami.log | tail -n 1)"
 
       - name: Pull project settings
-        run: vc pull --yes --environment="$TARGET"
+        run: vc pull --yes --environment="$TARGET" > pull.log 2>&1 || { cat pull.log; explain "vercel pull" pull.log; }
 
       - name: Build
-        run: vc build $PROD_FLAG
+        run: vc build $PROD_FLAG 2>&1 | tee build.log || explain "vercel build" build.log
 
       - name: Deploy
         id: deploy
         run: |
-          vc deploy --prebuilt $PROD_FLAG --format json > deployment.json
+          vc deploy --prebuilt $PROD_FLAG --format json > deployment.json 2> deploy.log \
+            || { cat deploy.log deployment.json; explain "vercel deploy" deploy.log deployment.json; }
           url=$(node -e '
             const text = require("node:fs").readFileSync("deployment.json", "utf8")
             const out = JSON.parse(text.slice(text.indexOf("{")))
