@@ -1,10 +1,18 @@
-import type { WeddingConfig } from './types'
+import type { L, WeddingConfig } from './types'
 
 /**
  * ✏️  Edit this file to personalise the whole site.
  * Text fields have an English (en) and Bengali (bn) version.
- * Still sample content: Aashirbaad / Gaye Holud / Bou Bhaat venues. Gallery uses stock photos.
+ * Gallery uses stock photos.
  */
+
+// Every celebration is held here
+const venueName: L = { en: 'Siliguri Baghajatin Sporting Club', bn: 'শিলিগুড়ি বাঘাযতীন স্পোর্টিং ক্লাব' }
+const venueAddress: L = {
+  en: '45/1, Baghajotin Colony, Pradhan Nagar, Siliguri, West Bengal 734003',
+  bn: '৪৫/১, বাঘাযতীন কলোনি, প্রধাননগর, শিলিগুড়ি, পশ্চিমবঙ্গ ৭৩৪০০৩',
+}
+
 export const wedding: WeddingConfig = {
   defaultLang: 'en',
 
@@ -128,8 +136,9 @@ export const wedding: WeddingConfig = {
       theme: 'dhaan',
       start: '2027-01-27T11:00:00+05:30',
       end: '2027-01-27T14:00:00+05:30',
-      venue: { en: 'Dey Sarkar Residence', bn: 'দে সরকার বাসভবন' },
-      address: { en: '12 Lake Road, Kolkata', bn: '১২ লেক রোড, কলকাতা' },
+      venue: venueName,
+      address: venueAddress,
+      atVenue: true,
       dressCode: { en: 'Traditional', bn: 'ঐতিহ্যবাহী পোশাক' },
       description: {
         en: 'Elders of both families bless the groom and bride with dhaan and durba.',
@@ -143,8 +152,9 @@ export const wedding: WeddingConfig = {
       theme: 'haldi',
       start: '2027-01-29T08:00:00+05:30',
       end: '2027-01-29T11:00:00+05:30',
-      venue: { en: 'Dey Sarkar Residence', bn: 'দে সরকার বাসভবন' },
-      address: { en: '12 Lake Road, Kolkata', bn: '১২ লেক রোড, কলকাতা' },
+      venue: venueName,
+      address: venueAddress,
+      atVenue: true,
       dressCode: { en: 'Yellow & white', bn: 'হলুদ ও সাদা' },
       description: {
         en: 'A morning of turmeric, conch shells and ululu as the tattva is sent to the bride.',
@@ -158,8 +168,8 @@ export const wedding: WeddingConfig = {
       theme: 'sindoor',
       start: '2027-01-29T18:00:00+05:30',
       end: '2027-01-29T23:30:00+05:30',
-      venue: { en: 'Siliguri Baghajatin Sporting Club', bn: 'শিলিগুড়ি বাঘাযতীন স্পোর্টিং ক্লাব' },
-      address: { en: 'Pradhan Nagar, Siliguri', bn: 'প্রধাননগর, শিলিগুড়ি' },
+      venue: venueName,
+      address: venueAddress,
       atVenue: true,
       dressCode: { en: 'Saree & dhoti-panjabi', bn: 'শাড়ি ও ধুতি-পাঞ্জাবি' },
       description: {
@@ -174,8 +184,9 @@ export const wedding: WeddingConfig = {
       theme: 'kolapata',
       start: '2027-01-31T19:30:00+05:30',
       end: '2027-01-31T23:30:00+05:30',
-      venue: { en: 'The Grand Ballroom', bn: 'দ্য গ্র্যান্ড বলরুম' },
-      address: { en: 'Park Street, Kolkata', bn: 'পার্ক স্ট্রিট, কলকাতা' },
+      venue: venueName,
+      address: venueAddress,
+      atVenue: true,
       dressCode: { en: 'Festive traditional', bn: 'উৎসবের সাজ' },
       description: {
         en: 'The new bride serves bhaat to the family, followed by dinner and celebration.',
@@ -185,12 +196,9 @@ export const wedding: WeddingConfig = {
   ],
 
   venue: {
-    name: { en: 'Siliguri Baghajatin Sporting Club', bn: 'শিলিগুড়ি বাঘাযতীন স্পোর্টিং ক্লাব' },
+    name: venueName,
     shortName: { en: 'Baghajatin Sporting Club', bn: 'বাঘাযতীন স্পোর্টিং ক্লাব' },
-    address: {
-      en: '45/1, Baghajotin Colony, Pradhan Nagar, Siliguri, West Bengal 734003',
-      bn: '৪৫/১, বাঘাযতীন কলোনি, প্রধাননগর, শিলিগুড়ি, পশ্চিমবঙ্গ ৭৩৪০০৩',
-    },
+    address: venueAddress,
     // From Mappls (place UR35CD). Run `npm run routes` after changing any coordinates.
     coordinates: { lat: 26.733682, lng: 88.420173 },
     parking: true,
