@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1280 420" width="1280" height="420" role="img" aria-label="Ujjal &amp; Rupsha — a hand-painted Bengali wedding invitation">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="58%" r="60%">
+      <stop offset="0" stop-color="#9a1f22"/>
+      <stop offset="1" stop-color="#6d0e13"/>
+    </radialGradient>
+    <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8fbf5e"/>
+      <stop offset="1" stop-color="#3f6f2f"/>
+    </linearGradient>
+
+    <!-- alpona petal -->
+    <path id="petal" d="M640 92 C 652 60 652 40 640 16 C 628 40 628 60 640 92 Z"/>
+    <path id="petal-sm" d="M640 128 C 647 110 647 98 640 84 C 633 98 633 110 640 128 Z"/>
+
+    <!-- toran pieces -->
+    <path id="cord-leaf" d="M0 0 C 5 7 5 16 0 22 C -5 16 -5 7 0 0 Z" fill="#5b8a3c"/>
+    <g id="marigold">
+      <circle r="9" fill="#f0a030"/>
+      <circle r="7" fill="none" stroke="#a8500f" stroke-opacity=".4" stroke-dasharray="2 2"/>
+      <circle r="3" fill="#a8400f" fill-opacity=".55"/>
+    </g>
+    <g id="marigold-deep">
+      <circle r="9" fill="#d9731a"/>
+      <circle r="7" fill="none" stroke="#7a3208" stroke-opacity=".4" stroke-dasharray="2 2"/>
+      <circle r="3" fill="#7a3208" fill-opacity=".55"/>
+    </g>
+    <g id="rose">
+      <circle r="9.5" fill="#b3122a"/>
+      <circle r="6.6" fill="#8c0d20" stroke="#e8475a" stroke-opacity=".6" stroke-width=".8"/>
+      <circle r="3.4" fill="#5a0711"/>
+      <path d="M-2.4 -.6 A 2.6 2.6 0 0 1 2.4 -.9 A 2.4 1.8 0 0 0 -2.4 -.6 Z" fill="#c81f35"/>
+    </g>
+    <path id="drop-leaf" d="M0 0 C 6 6 5 16 0 22 C -5 16 -6 6 0 0 Z" fill="#5b8a3c"/>
+
+    <!-- Plain Tiger butterfly, one side -->
+    <clipPath id="fw-clip">
+      <path d="M1.5 -10 C 8 -20 22 -33 40 -40 C 44 -41.5 47.5 -39 47 -35 C 46 -27 43 -17 38 -9 C 35 -4 32 -1 28 1 C 20 0 10 -2 2 -3 Z"/>
+    </clipPath>
+    <g id="wing">
+      <path d="M2 -5 C 10 -9 26 -8 36 -2 C 42 2 42 12 37 20 C 32 28 24 33 17 32 C 11 31 7 25 5 18 C 3.5 12 2.5 4 2 -5 Z" fill="#1d1410"/>
+      <path d="M2 -5 C 10 -9 26 -8 34 -2.5 C 38.5 2 38.8 11 34.5 18 C 30 25 23.5 29.5 17.5 29 C 12.5 28.5 8.8 24 7 17.5 C 5 12 2.5 4 2 -5 Z" fill="#ef9a44"/>
+      <g fill="#1d1410"><circle cx="17.5" cy="4.5" r="1.4"/><circle cx="21.5" cy="8.2" r="1.25"/><circle cx="15.6" cy="9.4" r="1.1"/></g>
+      <g fill="#fbf5ea"><circle cx="38.6" cy="5" r=".75"/><circle cx="39.2" cy="10.5" r=".75"/><circle cx="37.3" cy="16.5" r=".75"/><circle cx="34" cy="22" r=".75"/><circle cx="29.6" cy="26.8" r=".75"/><circle cx="24.4" cy="29.8" r=".75"/><circle cx="19" cy="30.4" r=".75"/></g>
+      <path d="M1.5 -10 C 8 -20 22 -33 40 -40 C 44 -41.5 47.5 -39 47 -35 C 46 -27 43 -17 38 -9 C 35 -4 32 -1 28 1 C 20 0 10 -2 2 -3 Z" fill="#f3a549"/>
+      <g clip-path="url(#fw-clip)">
+        <path d="M20 -44 C 26 -32 33 -23 44 -15 L56 -12 L56 -50 Z" fill="#1d1410"/>
+        <path d="M1.5 -10 C 8 -20 22 -33 40 -40 C 44 -41.5 47.5 -39 47 -35 C 46 -27 43 -17 38 -9 C 35 -4 32 -1 28 1" fill="none" stroke="#1d1410" stroke-width="3"/>
+        <g fill="#fbf5ea"><ellipse cx="28.8" cy="-31.4" rx="2.1" ry="1.1" transform="rotate(-38 28.8 -31.4)"/><ellipse cx="32.4" cy="-28.6" rx="2.5" ry="1.35" transform="rotate(-38 32.4 -28.6)"/><ellipse cx="36.3" cy="-25.6" rx="2.2" ry="1.25" transform="rotate(-38 36.3 -25.6)"/><ellipse cx="39.6" cy="-22.4" rx="1.6" ry="1" transform="rotate(-38 39.6 -22.4)"/><circle cx="36" cy="-36" r=".9"/><circle cx="40" cy="-34.5" r=".9"/><circle cx="43.2" cy="-31.5" r=".9"/></g>
+      </g>
+    </g>
+    <g id="butterfly">
+      <use xlink:href="#wing"/>
+      <use xlink:href="#wing" transform="scale(-1 1)"/>
+      <path d="M-.8 -19.5 C -3 -27 -6 -34 -9.5 -40 M.8 -19.5 C 3 -27 6 -34 9.5 -40" fill="none" stroke="#1d1410" stroke-width=".8" stroke-linecap="round"/>
+      <path d="M-2.4 -1 C -3 9 -1.8 21 0 27 C 1.8 21 3 9 2.4 -1 Z" fill="#2c1b12"/>
+      <ellipse cy="-8" rx="3.3" ry="7.4" fill="#1b1310"/>
+      <circle cy="-17.2" r="2.8" fill="#1b1310"/>
+    </g>
+  </defs>
+
+  <rect width="1280" height="420" fill="url(#glow)"/>
+
+  <!-- alpona -->
+  <g fill="#fbf5ea" fill-opacity=".06">
+    <use xlink:href="#petal"/><use xlink:href="#petal" transform="rotate(20 640 250)"/><use xlink:href="#petal" transform="rotate(40 640 250)"/><use xlink:href="#petal" transform="rotate(60 640 250)"/><use xlink:href="#petal" transform="rotate(80 640 250)"/><use xlink:href="#petal" transform="rotate(100 640 250)"/><use xlink:href="#petal" transform="rotate(120 640 250)"/><use xlink:href="#petal" transform="rotate(140 640 250)"/><use xlink:href="#petal" transform="rotate(160 640 250)"/><use xlink:href="#petal" transform="rotate(180 640 250)"/><use xlink:href="#petal" transform="rotate(200 640 250)"/><use xlink:href="#petal" transform="rotate(220 640 250)"/><use xlink:href="#petal" transform="rotate(240 640 250)"/><use xlink:href="#petal" transform="rotate(260 640 250)"/><use xlink:href="#petal" transform="rotate(280 640 250)"/><use xlink:href="#petal" transform="rotate(300 640 250)"/><use xlink:href="#petal" transform="rotate(320 640 250)"/><use xlink:href="#petal" transform="rotate(340 640 250)"/>
+    <use xlink:href="#petal-sm" transform="rotate(10 640 250)"/><use xlink:href="#petal-sm" transform="rotate(40 640 250)"/><use xlink:href="#petal-sm" transform="rotate(70 640 250)"/><use xlink:href="#petal-sm" transform="rotate(100 640 250)"/><use xlink:href="#petal-sm" transform="rotate(130 640 250)"/><use xlink:href="#petal-sm" transform="rotate(160 640 250)"/><use xlink:href="#petal-sm" transform="rotate(190 640 250)"/><use xlink:href="#petal-sm" transform="rotate(220 640 250)"/><use xlink:href="#petal-sm" transform="rotate(250 640 250)"/><use xlink:href="#petal-sm" transform="rotate(280 640 250)"/><use xlink:href="#petal-sm" transform="rotate(310 640 250)"/><use xlink:href="#petal-sm" transform="rotate(340 640 250)"/>
+  </g>
+  <g fill="none" stroke="#fbf5ea" stroke-opacity=".08">
+    <circle cx="640" cy="250" r="244" stroke-width="2"/>
+    <circle cx="640" cy="250" r="254" stroke-dasharray="3 9" stroke-width="2"/>
+    <circle cx="640" cy="250" r="160"/>
+  </g>
+
+  <!-- frame -->
+  <rect x="16" y="16" width="1248" height="388" fill="none" stroke="#c39035" stroke-opacity=".55"/>
+  <rect x="24" y="24" width="1232" height="372" fill="none" stroke="#c39035" stroke-opacity=".35" stroke-dasharray="4 4"/>
+
+  <!-- toran: mango-leaf cord with marigold and red-rose strings -->
+  <path d="M0 8 H1280" stroke="#8a5a1a" stroke-width="2"/>
+  <g>
+    <use xlink:href="#cord-leaf" x="20" y="4"/><use xlink:href="#cord-leaf" x="60" y="4"/><use xlink:href="#cord-leaf" x="100" y="4"/><use xlink:href="#cord-leaf" x="140" y="4"/><use xlink:href="#cord-leaf" x="180" y="4"/><use xlink:href="#cord-leaf" x="220" y="4"/><use xlink:href="#cord-leaf" x="260" y="4"/><use xlink:href="#cord-leaf" x="300" y="4"/><use xlink:href="#cord-leaf" x="340" y="4"/><use xlink:href="#cord-leaf" x="380" y="4"/><use xlink:href="#cord-leaf" x="420" y="4"/><use xlink:href="#cord-leaf" x="460" y="4"/><use xlink:href="#cord-leaf" x="500" y="4"/><use xlink:href="#cord-leaf" x="540" y="4"/><use xlink:href="#cord-leaf" x="580" y="4"/><use xlink:href="#cord-leaf" x="620" y="4"/><use xlink:href="#cord-leaf" x="660" y="4"/><use xlink:href="#cord-leaf" x="700" y="4"/><use xlink:href="#cord-leaf" x="740" y="4"/><use xlink:href="#cord-leaf" x="780" y="4"/><use xlink:href="#cord-leaf" x="820" y="4"/><use xlink:href="#cord-leaf" x="860" y="4"/><use xlink:href="#cord-leaf" x="900" y="4"/><use xlink:href="#cord-leaf" x="940" y="4"/><use xlink:href="#cord-leaf" x="980" y="4"/><use xlink:href="#cord-leaf" x="1020" y="4"/><use xlink:href="#cord-leaf" x="1060" y="4"/><use xlink:href="#cord-leaf" x="1100" y="4"/><use xlink:href="#cord-leaf" x="1140" y="4"/><use xlink:href="#cord-leaf" x="1180" y="4"/><use xlink:href="#cord-leaf" x="1220" y="4"/><use xlink:href="#cord-leaf" x="1260" y="4"/>
+  </g>
+  <g stroke="#8a5a1a" stroke-width="1">
+    <path d="M60 8 V92 M160 8 V128 M260 8 V76 M360 8 V112 M460 8 V92 M820 8 V92 M920 8 V112 M1020 8 V76 M1120 8 V128 M1220 8 V92"/>
+  </g>
+  <g>
+    <use xlink:href="#marigold" x="60" y="24"/><use xlink:href="#rose" x="60" y="40"/><use xlink:href="#marigold-deep" x="60" y="56"/><use xlink:href="#marigold" x="60" y="72"/><use xlink:href="#rose" x="60" y="88"/><use xlink:href="#drop-leaf" x="60" y="96"/>
+    <use xlink:href="#rose" x="160" y="24"/><use xlink:href="#marigold" x="160" y="40"/><use xlink:href="#marigold-deep" x="160" y="56"/><use xlink:href="#rose" x="160" y="72"/><use xlink:href="#marigold" x="160" y="88"/><use xlink:href="#marigold-deep" x="160" y="104"/><use xlink:href="#rose" x="160" y="120"/><use xlink:href="#drop-leaf" x="160" y="128"/>
+    <use xlink:href="#marigold-deep" x="260" y="24"/><use xlink:href="#marigold" x="260" y="40"/><use xlink:href="#rose" x="260" y="56"/><use xlink:href="#marigold" x="260" y="72"/><use xlink:href="#drop-leaf" x="260" y="80"/>
+    <use xlink:href="#marigold" x="360" y="24"/><use xlink:href="#rose" x="360" y="40"/><use xlink:href="#marigold" x="360" y="56"/><use xlink:href="#marigold-deep" x="360" y="72"/><use xlink:href="#rose" x="360" y="88"/><use xlink:href="#marigold" x="360" y="104"/><use xlink:href="#drop-leaf" x="360" y="112"/>
+    <use xlink:href="#rose" x="460" y="24"/><use xlink:href="#marigold-deep" x="460" y="40"/><use xlink:href="#marigold" x="460" y="56"/><use xlink:href="#rose" x="460" y="72"/><use xlink:href="#marigold" x="460" y="88"/><use xlink:href="#drop-leaf" x="460" y="96"/>
+    <use xlink:href="#marigold" x="820" y="24"/><use xlink:href="#rose" x="820" y="40"/><use xlink:href="#marigold" x="820" y="56"/><use xlink:href="#marigold-deep" x="820" y="72"/><use xlink:href="#rose" x="820" y="88"/><use xlink:href="#drop-leaf" x="820" y="96"/>
+    <use xlink:href="#marigold-deep" x="920" y="24"/><use xlink:href="#rose" x="920" y="40"/><use xlink:href="#marigold" x="920" y="56"/><use xlink:href="#marigold" x="920" y="72"/><use xlink:href="#rose" x="920" y="88"/><use xlink:href="#marigold-deep" x="920" y="104"/><use xlink:href="#drop-leaf" x="920" y="112"/>
+    <use xlink:href="#rose" x="1020" y="24"/><use xlink:href="#marigold" x="1020" y="40"/><use xlink:href="#marigold-deep" x="1020" y="56"/><use xlink:href="#rose" x="1020" y="72"/><use xlink:href="#drop-leaf" x="1020" y="80"/>
+    <use xlink:href="#marigold" x="1120" y="24"/><use xlink:href="#marigold-deep" x="1120" y="40"/><use xlink:href="#rose" x="1120" y="56"/><use xlink:href="#marigold" x="1120" y="72"/><use xlink:href="#marigold" x="1120" y="88"/><use xlink:href="#rose" x="1120" y="104"/><use xlink:href="#marigold-deep" x="1120" y="120"/><use xlink:href="#drop-leaf" x="1120" y="128"/>
+    <use xlink:href="#rose" x="1220" y="24"/><use xlink:href="#marigold" x="1220" y="40"/><use xlink:href="#marigold-deep" x="1220" y="56"/><use xlink:href="#marigold" x="1220" y="72"/><use xlink:href="#rose" x="1220" y="88"/><use xlink:href="#drop-leaf" x="1220" y="96"/>
+  </g>
+
+  <!-- paan leaves -->
+  <g transform="translate(640 132)">
+    <!-- heart-shaped betel leaves, tips up, fanning out from a shared stalk -->
+    <g transform="rotate(-28 0 24)">
+      <path d="M0 24 C -16 12 -22 -2 -14 -12 C -8 -18 -2 -14 0 -8 C 2 -14 8 -18 14 -12 C 22 -2 16 12 0 24 Z" transform="rotate(180 0 6)" fill="url(#leaf)" stroke="#2f5a26" stroke-width="1.2"/>
+      <path d="M0 -12 V22" stroke="#d8ebb0" stroke-opacity=".7"/>
+    </g>
+    <g transform="rotate(28 0 24)">
+      <path d="M0 24 C -16 12 -22 -2 -14 -12 C -8 -18 -2 -14 0 -8 C 2 -14 8 -18 14 -12 C 22 -2 16 12 0 24 Z" transform="rotate(180 0 6)" fill="url(#leaf)" stroke="#2f5a26" stroke-width="1.2"/>
+      <path d="M0 -12 V22" stroke="#d8ebb0" stroke-opacity=".7"/>
+    </g>
+  </g>
+
+  <!-- names -->
+  <text x="640" y="236" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, 'Times New Roman', serif" font-style="italic" font-size="86" fill="#ebcb85">Ujjal <tspan font-size="54" fill="#f0a030">&amp;</tspan> Rupsha</text>
+  <text x="640" y="284" text-anchor="middle" font-family="'Tiro Bangla', 'Noto Serif Bengali', 'Bangla MN', 'Nirmala UI', 'Vrinda', serif" font-size="28" fill="#fbf5ea" fill-opacity=".9">উজ্জ্বল ও রূপসা · শুভ বিবাহ</text>
+  <g fill="#c39035">
+    <path d="M540 312 H610 M670 312 H740" stroke="#c39035" stroke-width="1"/>
+    <path d="M640 302 C 646 308 646 316 640 322 C 634 316 634 308 640 302 Z"/>
+    <path d="M640 322 C 632 320 626 314 624 306 C 632 308 637 313 640 322 Z" fill-opacity=".7"/>
+    <path d="M640 322 C 648 320 654 314 656 306 C 648 308 643 313 640 322 Z" fill-opacity=".7"/>
+  </g>
+  <text x="640" y="356" text-anchor="middle" font-family="'Jost', 'Helvetica Neue', Arial, sans-serif" font-size="17" letter-spacing="6" fill="#ebcb85">29 · 01 · 2027   ✦   SILIGURI, INDIA</text>
+  <text x="640" y="384" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-style="italic" font-size="17" fill="#fbf5ea" fill-opacity=".6">a hand-painted, bilingual wedding invitation for the web</text>
+
+  <!-- the pair of butterflies -->
+  <use xlink:href="#butterfly" transform="translate(318 166) rotate(-24) scale(.62)"/>
+  <use xlink:href="#butterfly" transform="translate(990 150) rotate(20) scale(.52)"/>
+</svg>
