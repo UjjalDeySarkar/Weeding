@@ -57,30 +57,24 @@ export function Hero({ ready }: { ready: boolean }) {
 
             {lang === 'en' ? (
               <h1 className="mt-4 font-script text-7xl leading-[1.05] text-sindoor sm:text-8xl">
-                <span className="block">
-                  <span ref={groomRef} className="inline-block">
-                    {groom.firstName.en}
-                  </span>
+                {/* Flex keeps each name centred over the joiner even on screens too narrow for it */}
+                <span className="flex justify-center">
+                  <span ref={groomRef}>{groom.firstName.en}</span>
                 </span>
-                <span className="block font-display text-4xl text-marigold-deep">&amp;</span>
-                <span className="block">
-                  <span ref={brideRef} className="inline-block">
-                    {bride.firstName.en}
-                  </span>
+                {/* Drops below the descenders of the name above; the name below tucks back up */}
+                <span className="mt-[0.42em] -mb-[0.27em] block text-[0.55em] leading-none text-marigold-deep">&amp;</span>
+                <span className="flex justify-center">
+                  <span ref={brideRef}>{bride.firstName.en}</span>
                 </span>
               </h1>
             ) : (
               <h1 className="mt-4 font-bengali-display text-6xl leading-snug text-sindoor sm:text-7xl">
-                <span className="block">
-                  <span ref={groomRef} className="inline-block">
-                    {groom.firstName.bn}
-                  </span>
+                <span className="flex justify-center">
+                  <span ref={groomRef}>{groom.firstName.bn}</span>
                 </span>
                 <span className="block text-4xl text-marigold-deep">ও</span>
-                <span className="block">
-                  <span ref={brideRef} className="inline-block">
-                    {bride.firstName.bn}
-                  </span>
+                <span className="flex justify-center">
+                  <span ref={brideRef}>{bride.firstName.bn}</span>
                 </span>
               </h1>
             )}
