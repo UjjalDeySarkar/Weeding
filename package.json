@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "routes": "node scripts/fetch-venue-routes.mjs"
+    "routes": "node scripts/fetch-venue-routes.mjs",
+    "map": "node scripts/fetch-bengal-map.mjs"
   },
   "dependencies": {
     "lucide-react": "^1.46.0",

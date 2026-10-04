@@ -154,6 +154,21 @@
     linear-gradient(#000 0 0) no-repeat 50% / calc(100% - 3 * var(--r)) calc(100% - 3 * var(--r));
 }
 
+/* Journey map: a sprite pinned to map kilometres (--x, --y) that keeps the same size on screen as the camera zooms */
+@utility map-pin {
+  transform: translate(var(--x), var(--y)) scale(calc(var(--u) * var(--k)));
+}
+
+/* Journey map: wedding-day extras appear when the world turns them on */
+[data-world] [data-extra] {
+  display: none;
+}
+[data-world][data-topor] [data-extra='topor'],
+[data-world][data-garland] [data-extra='garland'],
+[data-world][data-sindoor] [data-extra='sindoor'] {
+  display: inline;
+}
+
 /* Night sky behind the globe */
 @utility starfield {
   background-color: #0b1230;

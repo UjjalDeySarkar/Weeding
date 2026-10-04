@@ -69,6 +69,48 @@ export interface Journey {
   labelSide: 'left' | 'right' | 'bottom'
 }
 
+/** A place on the journey map */
+export interface JourneyPlace {
+  name: L
+  coordinates: LatLng
+  /** The spot is a stand-in until the exact location is known */
+  approximate?: boolean
+}
+
+/** Cards with new text; milestone cards reuse the story moments by motif */
+export type JourneyCardId =
+  | 'start'
+  | 'groomHome'
+  | 'brideHome'
+  | 'apart'
+  | 'city'
+  | 'meeting'
+  | 'distance'
+  | 'explored'
+  | 'families'
+  | 'destination'
+
+export interface JourneyCard {
+  tag: L
+  title?: L
+  /** `{km}` becomes the distance between the two homes, `{cityKm}` the city to the bride's home. Leave out to use the story text. */
+  text?: L
+  /** Smaller line under the text */
+  note?: L
+}
+
+export interface JourneyConfig {
+  groomHome: JourneyPlace
+  brideHome: JourneyPlace
+  /** Where the groom was living when they met */
+  city: JourneyPlace
+  meeting: JourneyPlace
+  /** Places explored together, collected as stamps in this order */
+  explored: (JourneyPlace & { id: string })[]
+  chapters: L[]
+  cards: Record<JourneyCardId, JourneyCard>
+}
+
 /** Required for Creative Commons photos (e.g. from Wikimedia Commons) */
 export interface PhotoCredit {
   author: string
@@ -118,6 +160,8 @@ export interface WeddingConfig {
   }
   intro: L
   story: StoryMoment[]
+  /** The scroll-driven journey map; its milestone cards reuse `story` */
+  journey: JourneyConfig
   events: WeddingEvent[]
   venue: {
     name: L

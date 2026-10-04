@@ -10,6 +10,7 @@ import { Cover } from '@/sections/Cover'
 import { Events } from '@/sections/Events'
 import { Gallery } from '@/sections/Gallery'
 import { Hero } from '@/sections/Hero'
+import { Journey } from '@/sections/Journey'
 import { OurStory } from '@/sections/OurStory'
 import { Ribbon } from '@/sections/Ribbon'
 import { Venue } from '@/sections/Venue'
@@ -27,6 +28,7 @@ export default function App() {
         <Countdown />
         <LalPaar />
         <OurStory />
+        <Journey />
         <Events />
         <Gallery />
         <Venue />

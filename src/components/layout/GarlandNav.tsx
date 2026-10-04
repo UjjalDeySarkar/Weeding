@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useScroll } from 'motion/react'
 import type { Variants } from 'motion/react'
-import { BookHeart, CalendarHeart, House, Images, MapPin, X } from 'lucide-react'
+import { BookHeart, CalendarHeart, House, Images, MapPin, Route, X } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { LanguageToggle } from '@/components/ui/LanguageToggle'
 import { wedding } from '@/config/wedding'
 import { useLang } from '@/i18n/context'
 import { cn, initial } from '@/lib/utils'
 
-type SectionId = 'home' | 'story' | 'events' | 'gallery' | 'venue'
+type SectionId = 'home' | 'story' | 'journey' | 'events' | 'gallery' | 'venue'
 
 const sections: { id: SectionId; icon: LucideIcon }[] = [
   { id: 'home', icon: House },
   { id: 'story', icon: BookHeart },
+  { id: 'journey', icon: Route },
   { id: 'events', icon: CalendarHeart },
   { id: 'gallery', icon: Images },
   { id: 'venue', icon: MapPin },

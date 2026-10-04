@@ -128,6 +128,120 @@ export const wedding: WeddingConfig = {
     },
   ],
 
+  // The scroll-driven journey map (Our Journey section). Its milestone cards reuse the story above.
+  journey: {
+    groomHome: { name: { en: 'Siliguri', bn: 'শিলিগুড়ি' }, coordinates: { lat: 26.7271, lng: 88.3953 } },
+    // Kotulpur for now — replace with the exact Mirzapur pin and drop `approximate`
+    brideHome: {
+      name: { en: 'Mirzapur', bn: 'মির্জাপুর' },
+      coordinates: { lat: 23.0167, lng: 87.5833 },
+      approximate: true,
+    },
+    city: { name: { en: 'Kolkata', bn: 'কলকাতা' }, coordinates: { lat: 22.5726, lng: 88.3639 } },
+    // An event venue somewhere in Kolkata
+    meeting: {
+      name: { en: 'An event in Kolkata', bn: 'কলকাতার এক অনুষ্ঠান' },
+      coordinates: { lat: 22.5726, lng: 88.3639 },
+      approximate: true,
+    },
+    // Approximate centres — close enough at map scale
+    explored: [
+      { id: 'eco-park', name: { en: 'Eco Park', bn: 'ইকো পার্ক' }, coordinates: { lat: 22.6019, lng: 88.4676 } },
+      { id: 'biswa-bangla', name: { en: 'Biswa Bangla Gate', bn: 'বিশ্ব বাংলা গেট' }, coordinates: { lat: 22.5806, lng: 88.4738 } },
+      { id: 'kamarpukur', name: { en: 'Kamarpukur', bn: 'কামারপুকুর' }, coordinates: { lat: 22.91, lng: 87.65 } },
+      { id: 'joyrambati', name: { en: 'Joyrambati', bn: 'জয়রামবাটী' }, coordinates: { lat: 22.95, lng: 87.62 } },
+      { id: 'bishnupur', name: { en: 'Bishnupur', bn: 'বিষ্ণুপুর' }, coordinates: { lat: 23.075, lng: 87.317 } },
+    ],
+    chapters: [
+      { en: 'Two homes', bn: 'দুটি ঘর' },
+      { en: 'A new city', bn: 'নতুন শহর' },
+      { en: 'The first meeting', bn: 'প্রথম দেখা' },
+      { en: 'Miles apart', bn: 'দূরত্বের দিনগুলি' },
+      { en: 'Places we explored', bn: 'একসঙ্গে ঘোরা' },
+      { en: 'Big moments', bn: 'বিশেষ মুহূর্ত' },
+      { en: 'One destination', bn: 'এক গন্তব্য' },
+      { en: 'Forever begins', bn: 'চিরকালের শুরু' },
+    ],
+    cards: {
+      start: {
+        tag: { en: 'Our journey', bn: 'আমাদের পথচলা' },
+        title: { en: 'Two homes, {km} km apart', bn: 'দুটি ঘর, {km} কিমি দূরে' },
+        text: {
+          en: 'Scroll to travel through our story, from two different places to one wedding day.',
+          bn: 'স্ক্রল করে চলুন আমাদের গল্পের পথে — দুটি আলাদা জায়গা থেকে একটি বিয়ের দিন পর্যন্ত।',
+        },
+      },
+      groomHome: {
+        tag: { en: 'Chapter 1 · Two homes', bn: 'পর্ব ১ · দুটি ঘর' },
+        title: { en: 'Siliguri', bn: 'শিলিগুড়ি' },
+        text: {
+          en: 'Ujjal’s home, where the tea gardens meet the foothills of the Himalaya.',
+          bn: 'উজ্জ্বলের বাড়ি — যেখানে চা বাগান মিশেছে হিমালয়ের পাদদেশে।',
+        },
+      },
+      brideHome: {
+        tag: { en: 'Chapter 1 · Two homes', bn: 'পর্ব ১ · দুটি ঘর' },
+        title: { en: 'Mirzapur', bn: 'মির্জাপুর' },
+        text: {
+          en: 'Rupsha’s home, a little beyond Kotulpur in Bankura, a land of red earth and terracotta temples.',
+          bn: 'রূপসার বাড়ি — বাঁকুড়ার কোতুলপুর ছাড়িয়ে একটু এগিয়ে, লাল মাটি আর টেরাকোটা মন্দিরের দেশে।',
+        },
+      },
+      apart: {
+        tag: { en: 'Chapter 1 · Two homes', bn: 'পর্ব ১ · দুটি ঘর' },
+        title: { en: '{km} km apart', bn: '{km} কিমি দূরে' },
+        text: { en: 'Two different places, two different lives.', bn: 'দুটি আলাদা জায়গা, দুটি আলাদা জীবন।' },
+      },
+      city: {
+        tag: { en: 'Chapter 2 · A new city', bn: 'পর্ব ২ · নতুন শহর' },
+        title: { en: 'Kolkata', bn: 'কলকাতা' },
+        text: {
+          en: 'By 2023 Ujjal was living in Kolkata, about {cityKm} km from Rupsha’s home. Somehow, our paths were meant to cross.',
+          bn: '২০২৩ সালে উজ্জ্বল থাকত কলকাতায়, রূপসার বাড়ি থেকে প্রায় {cityKm} কিমি দূরে। কোনো এক অজানা টানে, আমাদের পথ মেলারই ছিল।',
+        },
+        note: {
+          en: 'Follow the Prajapati butterfly, Bengal’s messenger of marriage.',
+          bn: 'পথ দেখাবে প্রজাপতি — বাংলার বিয়ের দূত।',
+        },
+      },
+      meeting: {
+        tag: { en: 'Chapter 3 · The first meeting', bn: 'পর্ব ৩ · প্রথম দেখা' },
+        note: {
+          en: 'Ujjal came by bike, Rupsha came by train, and we met at an event in Kolkata.',
+          bn: 'উজ্জ্বল এল বাইকে, রূপসা ট্রেনে — কলকাতার এক অনুষ্ঠানে আমাদের প্রথম দেখা।',
+        },
+      },
+      distance: {
+        tag: { en: 'Chapter 4 · Miles apart', bn: 'পর্ব ৪ · দূরত্বের দিনগুলি' },
+        title: { en: 'Kolkata to Mirzapur', bn: 'কলকাতা থেকে মির্জাপুর' },
+        text: {
+          en: 'Mostly by train, sometimes by bike, Ujjal kept making the trip.',
+          bn: 'বেশিরভাগ সময় ট্রেনে, কখনও বাইকে — উজ্জ্বল বারবার পাড়ি দিত এই পথ।',
+        },
+      },
+      explored: {
+        tag: { en: 'Chapter 5 · Places we explored', bn: 'পর্ব ৫ · একসঙ্গে ঘোরা' },
+        title: { en: 'Our travel stamps', bn: 'আমাদের ভ্রমণের ছাপ' },
+        text: {
+          en: 'Eco Park and Biswa Bangla Gate when Rupsha came to Kolkata, and Kamarpukur, Joyrambati and Bishnupur near her home.',
+          bn: 'রূপসা কলকাতায় এলে ইকো পার্ক আর বিশ্ব বাংলা গেট, আর তার বাড়ির কাছে কামারপুকুর, জয়রামবাটী ও বিষ্ণুপুর।',
+        },
+      },
+      families: {
+        tag: { en: 'Level 3 · 2026', bn: 'ধাপ ৩ · ২০২৬' },
+        note: {
+          en: 'Ujjal’s parents came from Siliguri to Kolkata, and the three of them drove to Mirzapur, where a celebration was waiting.',
+          bn: 'উজ্জ্বলের বাবা-মা শিলিগুড়ি থেকে এলেন কলকাতায়, তারপর তিনজনে গাড়িতে মির্জাপুর — সেখানে অপেক্ষা করছিল এক জমজমাট অনুষ্ঠান।',
+        },
+      },
+      destination: {
+        tag: { en: 'Chapter 7 · One destination', bn: 'পর্ব ৭ · এক গন্তব্য' },
+        title: { en: 'Next stop: Siliguri', bn: 'পরের স্টেশন: শিলিগুড়ি' },
+        text: { en: 'Together on one train, heading north for the wedding.', bn: 'একই ট্রেনে দুজনে, বিয়ের জন্য উত্তরের পথে।' },
+      },
+    },
+  },
+
   events: [
     {
       id: 'aashirbaad',
