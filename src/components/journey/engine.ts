@@ -352,12 +352,9 @@ export function runJourney(root: HTMLElement, { progress, reduce, text }: Option
     const parentsAt: Point = p > 0.8 ? [s.parents.pos[0] - 46 * S, s.parents.pos[1] + 6 * S] : s.parents.pos
     pose(parents, s.parents, parentsAt, S, now, dt, null, s.parents.mode !== 'hidden')
 
-    // Finale: crowns, garlands, sindoor and the bridal red
-    svg.toggleAttribute('data-topor', p > 0.93)
+    // Finale: mala badal, then sindoor daan with shankha-pola
     svg.toggleAttribute('data-garland', p > 0.955)
     svg.toggleAttribute('data-sindoor', p > 0.975)
-    bride.el.style.setProperty('--saree', p > 0.93 ? '#a51c1c' : '#2e5c9e')
-    bride.el.style.setProperty('--border', p > 0.93 ? '#e9b93a' : '#a51c1c')
 
     // The road being travelled, painted as it goes
     for (const [who, place] of [['groom', s.groom], ['bride', s.bride]] as const) {
@@ -443,14 +440,14 @@ export function runJourney(root: HTMLElement, { progress, reduce, text }: Option
       const on = p >= level.at && p < end
       badge.toggleAttribute('data-hidden', !on)
       const mid = threadPoint(0.5)
-      const spot: Point = i >= 2 || !mid ? [PLACES.brideHome[0], PLACES.brideHome[1] - 70 * S] : [mid[0], mid[1] - 16 * S]
+      const spot: Point = i >= 2 || !mid ? [PLACES.brideHome[0], PLACES.brideHome[1] - 118 * S] : [mid[0], mid[1] - 16 * S]
       badge.setAttribute('transform', `translate(${spot[0]} ${spot[1]}) scale(${S})`)
     })
 
     // Meeting pin, homes, the celebration, the mandap
     meetPin.toggleAttribute('data-hidden', !(p > 0.25 && p < 0.4))
     meetPin.toggleAttribute('data-met', p >= BURSTS.meeting)
-    meetPin.querySelector('[data-part="lift"]')?.setAttribute('transform', `translate(0 ${(-74 * smooth(span(p, 0.312, 0.33))).toFixed(1)})`)
+    meetPin.querySelector('[data-part="lift"]')?.setAttribute('transform', `translate(0 ${(-104 * smooth(span(p, 0.312, 0.33))).toFixed(1)})`)
     homes.forEach((h) => h.toggleAttribute('data-hidden', p > 0.858))
     guests.toggleAttribute('data-hidden', !(p > 0.8 && p < 0.856))
     mandap.toggleAttribute('data-hidden', p < 0.928)
@@ -470,7 +467,7 @@ export function runJourney(root: HTMLElement, { progress, reduce, text }: Option
         const c = p < 0.5 ? MEETING : PLACES.venue
         const r = (p < 0.5 ? 34 : 50) * S
         fx = c[0] + Math.cos(tt * 1.3) * r
-        fy = c[1] - (p < 0.5 ? 84 : 112) * S + Math.sin(tt * 2.6) * 10 * S
+        fy = c[1] - (p < 0.5 ? 122 : 116) * S + Math.sin(tt * 2.6) * 10 * S
       }
       if (now < flyLoop) {
         const k = (flyLoop - now) / 1200
@@ -542,7 +539,7 @@ export function runJourney(root: HTMLElement, { progress, reduce, text }: Option
     for (const [who, a] of [['groom', groom], ['bride', bride]] as const) {
       const b = bubbles[who]
       if (b.dataset.on !== undefined && now > Number(b.dataset.until)) delete b.dataset.on
-      b.style.transform = `translate(${a.screen[0].toFixed(1)}px, ${(a.screen[1] - 82 * K).toFixed(1)}px) translate(-50%, -100%)`
+      b.style.transform = `translate(${a.screen[0].toFixed(1)}px, ${(a.screen[1] - 98 * K).toFixed(1)}px) translate(-50%, -100%)`
     }
 
     drawBits(dt)

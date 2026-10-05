@@ -163,7 +163,6 @@
 [data-world] [data-extra] {
   display: none;
 }
-[data-world][data-topor] [data-extra='topor'],
 [data-world][data-garland] [data-extra='garland'],
 [data-world][data-sindoor] [data-extra='sindoor'] {
   display: inline;
