@@ -12,6 +12,7 @@
     "map": "node scripts/fetch-bengal-map.mjs"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "lucide-react": "^1.46.0",
     "maplibre-gl": "^6.10.0",
     "motion": "^13.4.0",

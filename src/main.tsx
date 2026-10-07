@@ -1,5 +1,6 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { Analytics } from '@vercel/analytics/react'
 import './index.css'
 import App from './App.tsx'
 import { LanguageProvider } from './i18n/LanguageProvider.tsx'
@@ -9,5 +10,6 @@ createRoot(document.getElementById('root')!).render(
     <LanguageProvider>
       <App />
     </LanguageProvider>
+    <Analytics />
   </StrictMode>,
 )
