@@ -226,7 +226,7 @@ export function roadLeg(ctx: Ctx, kind: 'bus' | 'bike'): Leg {
 
   const guest = bike ? new Guest(model(ctx.character), ctx.character) : null
   // The seated pose's hips sit about this far above its feet
-  const seat = new Vector3(0, 0.27, -0.05)
+  const seat = new Vector3(0, 0.4, -0.22)
 
   // ── Traffic
   const npcModels: ModelId[] = bike ? ['toto', 'toto', 'car', 'taxi'] : ['truck', 'truck', 'car', 'taxi', 'car']

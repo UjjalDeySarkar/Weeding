@@ -1,11 +1,11 @@
 {
   "source": "Poly Pizza (poly.pizza), except entries without a url. Run `npm run models` to download and optimize into public/game/models/; entries without a url were added by hand and are left as committed.",
   "models": [
-    { "id": "plane", "name": "Airplane", "author": "Poly by Google", "license": "CC BY 3.0", "page": "https://poly.pizza/m/0ZVPPr6X6gM", "url": "https://static.poly.pizza/1faa14d6-dee8-4bcc-a001-44d49b5a4866.glb" },
+    { "id": "plane", "name": "plane a340 (simplified)", "author": "mamont nikita", "license": "CC BY 4.0", "page": "https://sketchfab.com/3d-models/plane-a340-d3ad0996a8564a94a24ee4b3528b554b" },
     { "id": "train-front", "name": "High Speed Front", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/mJZDSqyzlk", "url": "https://static.poly.pizza/18e950a2-e71a-4479-8865-31de94e5b3d0.glb" },
     { "id": "train-wagon", "name": "High Speed Wagon", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/ggMOV8muH6", "url": "https://static.poly.pizza/a413c84d-91df-4ad2-8848-2c627814b59f.glb" },
-    { "id": "bus", "name": "Bus", "author": "Poly by Google", "license": "CC BY 3.0", "page": "https://poly.pizza/m/9Rj7a89ypPQ", "url": "https://static.poly.pizza/aef0c3f0-78ee-44f0-82fd-4db228063ca6.glb" },
-    { "id": "motorbike", "name": "Motorcycle", "author": "Poly by Google", "license": "CC BY 3.0", "page": "https://poly.pizza/m/dse64pqMKAR", "url": "https://static.poly.pizza/f7635710-7cfa-4768-ad70-8366ab485358.glb" },
+    { "id": "bus", "name": "City Bus RoAZ-5236 (optimized)", "author": "Yo.Ri", "license": "CC BY 4.0", "page": "https://sketchfab.com/3d-models/city-bus-rigged-5236-36646fcf41da498ca24a02f4b6fb1d95" },
+    { "id": "motorbike", "name": "Sports Bike (simplified)", "author": "Futurealiti", "license": "CC BY 4.0", "page": "https://sketchfab.com/3d-models/sports-bike-a80259b859c842d5824c25c61e0fc421" },
     { "id": "man", "name": "Man in Long Sleeves", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/DLptRuewTn", "url": "https://static.poly.pizza/e6019b9f-aed0-400c-8df4-ce5b648e9b82.glb" },
     { "id": "woman", "name": "Woman in Dress", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/zMyPlQXBzq", "url": "https://static.poly.pizza/a642af96-e239-4c5f-b50d-7661ff51deec.glb" },
     { "id": "truck", "name": "Truck", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/cXw6oiFtZ8", "url": "https://static.poly.pizza/f4b28921-b45e-4653-b54c-c3976e4ea0fe.glb" },

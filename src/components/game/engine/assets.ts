@@ -21,21 +21,20 @@ interface Spec {
   yaw?: number
   /** Scale so the model measures this many metres along an axis (after turning) */
   fit: ['x' | 'y' | 'z', number]
-  /** Or stretch it to exactly this width, height and length in metres */
-  size?: [number, number, number]
   /** Meshes to leave out, by name */
   drop?: RegExp
 }
 
 // Sizes are in metres. Orientations were checked against each model (see models.json for sources).
 const SPECS = {
-  plane: { fit: ['z', 34] },
+  // Modelled nose towards +X
+  plane: { yaw: -Math.PI / 2, fit: ['z', 34] },
   // The wagon keeps the front's scale: 11.2 vs 12.2 model units long
   'train-front': { yaw: Math.PI / 2, fit: ['z', 22] },
   'train-wagon': { yaw: Math.PI / 2, fit: ['z', 20.2] },
-  // Modelled at an angle, facing backwards, and as wide as it is tall: stretched to a real bus
-  bus: { yaw: 0.449 + Math.PI, fit: ['z', 11], size: [2.7, 3.3, 10.5] },
-  motorbike: { yaw: Math.PI, fit: ['z', 2.1] },
+  // Faces backwards; its baked-on ground shadow goes, the game draws its own
+  bus: { yaw: Math.PI, drop: /^ShadowPlane/, fit: ['z', 11] },
+  motorbike: { fit: ['z', 2.1] },
   man: { fit: ['y', 1.75] },
   woman: { fit: ['y', 1.66] },
   truck: { fit: ['z', 7.5] },
@@ -97,6 +96,8 @@ function prepare(id: ModelId, scene: Group, clips: AnimationClip[]): Model {
   }
   scene.traverse((node) => {
     if (!(node instanceof Mesh)) return
+    // Some are shipped without normals so they can be simplified further
+    if (!node.geometry.attributes.normal) node.geometry.computeVertexNormals()
     node.material = Array.isArray(node.material) ? node.material.map(toLambert) : toLambert(node.material)
     // Copies share these; `disposeTree` leaves them alone and `releaseModels` frees them
     node.geometry.userData.shared = true
@@ -117,8 +118,7 @@ function prepare(id: ModelId, scene: Group, clips: AnimationClip[]): Model {
   const box = new Box3().setFromObject(root, true)
   const size = box.getSize(new Vector3())
   const [axis, metres] = spec.fit
-  if (spec.size) fit.scale.set(spec.size[0] / size.x, spec.size[1] / size.y, spec.size[2] / size.z)
-  else fit.scale.setScalar(metres / size[axis])
+  fit.scale.setScalar(metres / size[axis])
   const k = fit.scale
   fit.position.set((-(box.min.x + box.max.x) / 2) * k.x, -box.min.y * k.y, (-(box.min.z + box.max.z) / 2) * k.z)
   root.updateMatrixWorld(true)
