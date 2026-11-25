@@ -21,3 +21,13 @@ const graphemes = new Intl.Segmenter(undefined, { granularity: 'grapheme' })
 
 /** First letter as a reader sees it: "Ujjal" → "U", "রূপসা" → "রূ" */
 export const initial = (text: string) => [...graphemes.segment(text)][0]?.segment ?? ''
+
+/** Whether this browser can draw WebGL (the live map and the game need it) */
+export function hasWebGL() {
+  try {
+    const canvas = document.createElement('canvas')
+    return Boolean(canvas.getContext('webgl2') ?? canvas.getContext('webgl'))
+  } catch {
+    return false
+  }
+}

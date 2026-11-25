@@ -344,6 +344,58 @@ export const wedding: WeddingConfig = {
     ],
   },
 
+  // The "Ride to the wedding" game: guests pick a city and a way to travel, drive to the matching hub in
+  // `venue.journeys` (plane → airport, train → NJP, bus → bus terminus), then ride a bike to the venue.
+  // A mode left out of `via` isn't offered from that city — there's no direct bus from Bengaluru.
+  game: {
+    origins: [
+      {
+        id: 'kolkata',
+        name: { en: 'Kolkata', bn: 'কলকাতা' },
+        coordinates: { lat: 22.5726, lng: 88.3639 },
+        via: {
+          plane: [
+            { en: 'Over the Ganga', bn: 'গঙ্গার উপর দিয়ে' },
+            { en: 'Malda below', bn: 'নিচে মালদা' },
+            { en: 'Kanchenjunga ahead!', bn: 'সামনে কাঞ্চনজঙ্ঘা!' },
+          ],
+          train: [
+            { en: 'Bolpur Shantiniketan', bn: 'বোলপুর শান্তিনিকেতন' },
+            { en: 'Malda Town', bn: 'মালদা টাউন' },
+            { en: 'Kishanganj', bn: 'কিষাণগঞ্জ' },
+          ],
+          bus: [
+            { en: 'Krishnanagar', bn: 'কৃষ্ণনগর' },
+            { en: 'Baharampur', bn: 'বহরমপুর' },
+            { en: 'Malda', bn: 'মালদা' },
+            { en: 'Raiganj', bn: 'রায়গঞ্জ' },
+            { en: 'Dalkhola', bn: 'ডালখোলা' },
+          ],
+        },
+      },
+      {
+        id: 'bengaluru',
+        name: { en: 'Bengaluru', bn: 'বেঙ্গালুরু' },
+        coordinates: { lat: 12.9716, lng: 77.5946 },
+        via: {
+          plane: [
+            { en: 'Over Andhra Pradesh', bn: 'অন্ধ্রপ্রদেশের উপর দিয়ে' },
+            { en: 'Over Odisha', bn: 'ওড়িশার উপর দিয়ে' },
+            { en: 'Over the Ganga', bn: 'গঙ্গার উপর দিয়ে' },
+            { en: 'Kanchenjunga ahead!', bn: 'সামনে কাঞ্চনজঙ্ঘা!' },
+          ],
+          train: [
+            { en: 'Vijayawada', bn: 'বিজয়ওয়াড়া' },
+            { en: 'Visakhapatnam', bn: 'বিশাখাপত্তনম' },
+            { en: 'Bhubaneswar', bn: 'ভুবনেশ্বর' },
+            { en: 'Kharagpur', bn: 'খড়্গপুর' },
+            { en: 'Malda Town', bn: 'মালদা টাউন' },
+          ],
+        },
+      },
+    ],
+  },
+
   // Freely licensed photos from Wikimedia Commons (credited on the page, resized for the web).
   // To use your own: drop files in public/images/gallery and add { src, alt: { en, bn } } — no credit needed.
   gallery: [

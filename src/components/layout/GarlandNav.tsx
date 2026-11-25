@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useScroll } from 'motion/react'
 import type { Variants } from 'motion/react'
-import { BookHeart, CalendarHeart, House, Images, MapPin, Route, X } from 'lucide-react'
+import { BookHeart, CalendarHeart, Gamepad2, House, Images, MapPin, Route, X } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { LanguageToggle } from '@/components/ui/LanguageToggle'
 import { wedding } from '@/config/wedding'
 import { useLang } from '@/i18n/context'
 import { cn, initial } from '@/lib/utils'
 
-type SectionId = 'home' | 'story' | 'journey' | 'events' | 'gallery' | 'venue'
+type SectionId = 'home' | 'story' | 'journey' | 'events' | 'gallery' | 'venue' | 'ride'
 
 const sections: { id: SectionId; icon: LucideIcon }[] = [
   { id: 'home', icon: House },
@@ -17,6 +17,7 @@ const sections: { id: SectionId; icon: LucideIcon }[] = [
   { id: 'events', icon: CalendarHeart },
   { id: 'gallery', icon: Images },
   { id: 'venue', icon: MapPin },
+  ...(wedding.game ? [{ id: 'ride' as const, icon: Gamepad2 }] : []),
 ]
 
 // The garland unrolls upwards from the seal: bottom bead first

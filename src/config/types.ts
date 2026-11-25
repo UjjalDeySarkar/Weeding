@@ -69,6 +69,18 @@ export interface Journey {
   labelSide: 'left' | 'right' | 'bottom'
 }
 
+/** A city guests set off from in the "Ride to the wedding" game */
+export interface GameOrigin {
+  id: string
+  name: L
+  coordinates: LatLng
+  /**
+   * Places passed on the way, by travel mode; they show up as town signs, stations or in-flight notes.
+   * A mode left out isn't offered from this city. Each mode ends at the hub in `venue.journeys` with the same icon.
+   */
+  via: Partial<Record<JourneyIcon, L[]>>
+}
+
 /** A place on the journey map */
 export interface JourneyPlace {
   name: L
@@ -174,6 +186,10 @@ export interface WeddingConfig {
     journeys: Journey[]
   }
   gallery: GalleryImage[]
+  /** The 3D "Ride to the wedding" game after the venue. Remove to hide it. */
+  game?: {
+    origins: GameOrigin[]
+  }
   /** Background music, e.g. /audio/song.mp3 (file in public/audio). Starts when the invitation is opened. */
   music?: string
 }

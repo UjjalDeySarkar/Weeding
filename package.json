@@ -9,7 +9,8 @@
     "lint": "oxlint",
     "preview": "vite preview",
     "routes": "node scripts/fetch-venue-routes.mjs",
-    "map": "node scripts/fetch-bengal-map.mjs"
+    "map": "node scripts/fetch-bengal-map.mjs",
+    "models": "node scripts/fetch-game-models.mjs"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
@@ -17,13 +18,15 @@
     "maplibre-gl": "^6.10.0",
     "motion": "^13.4.0",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "three": "^0.187.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.3.3",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
+    "@types/three": "^0.187.0",
     "@vitejs/plugin-react": "^6.1.1",
     "oxlint": "^1.81.0",
     "tailwindcss": "^4.3.3",

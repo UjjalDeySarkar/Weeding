@@ -12,6 +12,7 @@ import { Gallery } from '@/sections/Gallery'
 import { Hero } from '@/sections/Hero'
 import { Journey } from '@/sections/Journey'
 import { OurStory } from '@/sections/OurStory'
+import { RideGame } from '@/sections/RideGame'
 import { Ribbon } from '@/sections/Ribbon'
 import { Venue } from '@/sections/Venue'
 
@@ -32,6 +33,7 @@ export default function App() {
         <Events />
         <Gallery />
         <Venue />
+        {wedding.game && <RideGame />}
       </main>
       <Footer />
       <GarlandNav />

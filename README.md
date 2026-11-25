@@ -13,6 +13,7 @@
   <img alt="Tailwind CSS 4" src="https://img.shields.io/badge/Tailwind_CSS-4-35603a?style=flat-square&logo=tailwindcss&logoColor=white">
   <img alt="Motion" src="https://img.shields.io/badge/Motion-13-d9731a?style=flat-square&logo=framer&logoColor=white">
   <img alt="MapLibre GL" src="https://img.shields.io/badge/MapLibre_GL-6-6d0e13?style=flat-square&logo=maplibre&logoColor=white">
+  <img alt="three.js" src="https://img.shields.io/badge/three.js-0.187-2b1b18?style=flat-square&logo=threedotjs&logoColor=white">
   <img alt="English and Bengali" src="https://img.shields.io/badge/English_%2B_%E0%A6%AC%E0%A6%BE%E0%A6%82%E0%A6%B2%E0%A6%BE-e9b93a?style=flat-square">
 </p>
 
@@ -63,6 +64,21 @@ This site does the same: every section is a frame, every motif is drawn by hand 
     <td colspan="2" align="center"><img src="docs/screenshots/footer.jpg" alt="Footer with betel leaves and a closing blessing" width="60%"><br><b>পট ৯ · Your blessings are all we seek</b><br>A scalloped edge, an alpona, and one last line.</td>
   </tr>
 </table>
+
+## 🏍️ চলো বিয়েবাড়ি — ride to the wedding
+
+<p align="center">
+  <img src="docs/screenshots/ride.jpg" alt="A guest on a motorbike riding through Siliguri at dusk towards the biye-bari" width="100%">
+</p>
+
+After the venue, guests can play their way to the wedding in 3D:
+
+1. **Choose** who's coming (in a panjabi or a saree), where from (Kolkata or Bengaluru) and how: flight, train or bus. There's no direct bus from Bengaluru, so that one isn't offered.
+2. **Drive it yourself to Siliguri.** Fly through marigold rings and dodge crows and kites until the autopilot lands at Bagdogra. Or drive the train: stop at red signals, stop at stations for rosogollas and bring the engine to the STOP board at NJP. Or take the bus up the highway past Krishnanagar, Baharampur, Malda, Raiganj and Dalkhola, overtake the trucks and park in the yellow bay at Tenzing Norgay Bus Terminus.
+3. **Ride a motorbike to the biye-bari** along the shape of the real route from that hub, as the sun sets: keep left, mind the totos, collect rosogollas.
+4. **Arrive** at Baghajatin Sporting Club's gate, dressed with banana plants, marigolds and fairy lights. The guest poses in the gateway and claps, and a card shows the date, the rosogolla count and directions from the hub they came in by.
+
+Arrow keys or WASD on a computer, big buttons on a phone. There's no game over. three.js and the 3D models load only when someone presses *Play*, so the invitation itself stays light.
 
 ---
 
@@ -124,7 +140,10 @@ npm run build     # production build → dist/
 npm run preview   # serve the build locally
 npm run lint      # oxlint
 npm run routes    # re-fetch the driving routes drawn on the venue map
+npm run models    # re-download and optimize the game's 3D models
 ```
+
+While testing the game, add `?quick` to the dev URL (`http://localhost:5173/?quick`) to shorten every leg. It does nothing in the production build.
 
 ## 🖌️ Make it yours
 
@@ -136,6 +155,8 @@ Nearly everything lives in **`src/config/wedding.ts`**. Text fields take both la
 | Story chapters and their paintings | `story` → `motif: 'birds' \| 'ring' \| 'boat' \| 'homes' \| 'rings' \| 'crowns'` (art in `src/components/art/PataArt.tsx`) |
 | Where the butterflies land | `PERCHES` in `src/components/art/Butterflies.tsx` |
 | Venue pin & travel hubs | `venue.coordinates` / `venue.journeys`, then run `npm run routes` |
+| Game: home cities and the places passed on the way | `game.origins` → `via: { plane, train, bus }` (leave a mode out to hide it, remove `game` to hide the game) |
+| Game 3D models | `src/components/game/models.json`, then `npm run models` |
 | Event card colour | `theme: 'dhaan' \| 'haldi' \| 'sindoor' \| 'kolapata'` on each event |
 | Interface text (buttons, labels) | `src/i18n/strings.ts` |
 | Default language | `defaultLang` in `src/config/wedding.ts` |
@@ -169,15 +190,17 @@ src/
 ├── components/
 │   ├── art/         # Kulo, Butterflies, PataArt, Toran, Alpona, PaanLeaf, LalPaar (hand-written SVG)
 │   ├── map/         # IllustratedMap, GlobeMap (lazy), satellite style, route data
+│   ├── game/        # Ride to the wedding: GameDialog, trips, models.json, engine/ (three.js, lazy)
 │   ├── layout/      # GarlandNav, Footer, MusicPlayer
 │   └── ui/          # Section, Reveal, Ornament, Marquee, LanguageToggle, Bn
-├── sections/        # Cover, Hero, Ribbon, Countdown, OurStory, Events, Gallery, Venue
+├── sections/        # Cover, Hero, Ribbon, Countdown, OurStory, Journey, Events, Gallery, Venue, RideGame
 ├── hooks/           # useCountdown
 ├── lib/             # formatting, map projection, spline paths, calendar & maps links, utils
 ├── App.tsx          # page composition: reorder or remove sections here
 └── index.css        # theme tokens, textures (lal-paar, kantha, pata, scallop, stamp)
 scripts/
 ├── fetch-venue-routes.mjs   # OSRM routes → src/config/venue-routes.json
+├── fetch-game-models.mjs    # Poly Pizza models → public/game/models/ (meshopt-compressed)
 └── make-shehnai.py          # renders public/audio/shehnai.mp3
 docs/                        # README banner and screenshots
 .github/workflows/deploy.yml # CI: lint, build and deploy to Vercel
@@ -215,6 +238,10 @@ npx vercel --prod   # production
   [Tea gardens of Siliguri](https://commons.wikimedia.org/wiki/File:TEA_GARDEN,SILIGURI,INDIA.jpg) by Chayandas0308 (CC BY-SA 4.0)
 - **Maps:** imagery by [EOxCloudless 2024](https://cloudless.eox.at), vector tiles by [OpenFreeMap](https://openfreemap.org/),
   routes from [OSRM](https://project-osrm.org/), map data © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors
+- **3D models** from [Poly Pizza](https://poly.pizza/), CC0 by Quaternius, Kenney and Kay Lousberg, plus these under CC BY 3.0:
+  [Airplane](https://poly.pizza/m/0ZVPPr6X6gM), [Bus](https://poly.pizza/m/9Rj7a89ypPQ), [Motorcycle](https://poly.pizza/m/dse64pqMKAR),
+  [Bird](https://poly.pizza/m/8Ph79kHbt9s), [Kite](https://poly.pizza/m/8Qq-NaPoBt6) and [Cloud](https://poly.pizza/m/44cGXp6_8WD) by Poly by Google ·
+  [Golf cart](https://poly.pizza/m/cHsYy--qKC0) by Eric Wilson, tinted green as a Siliguri toto. Every model is listed in `src/components/game/models.json` and in the game's credits.
 - **Fonts** from [Google Fonts](https://fonts.google.com/) · **icons** from [Lucide](https://lucide.dev/)
 - **Inspiration:** Bengal's *patachitra* scroll painters, and the painted *kulo* of the boron dala
 

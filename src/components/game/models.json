@@ -1,0 +1,26 @@
+{
+  "source": "Poly Pizza (poly.pizza). Run `npm run models` to download and optimize into public/game/models/.",
+  "models": [
+    { "id": "plane", "name": "Airplane", "author": "Poly by Google", "license": "CC BY 3.0", "page": "https://poly.pizza/m/0ZVPPr6X6gM", "url": "https://static.poly.pizza/1faa14d6-dee8-4bcc-a001-44d49b5a4866.glb" },
+    { "id": "train-front", "name": "High Speed Front", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/mJZDSqyzlk", "url": "https://static.poly.pizza/18e950a2-e71a-4479-8865-31de94e5b3d0.glb" },
+    { "id": "train-wagon", "name": "High Speed Wagon", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/ggMOV8muH6", "url": "https://static.poly.pizza/a413c84d-91df-4ad2-8848-2c627814b59f.glb" },
+    { "id": "bus", "name": "Bus", "author": "Poly by Google", "license": "CC BY 3.0", "page": "https://poly.pizza/m/9Rj7a89ypPQ", "url": "https://static.poly.pizza/aef0c3f0-78ee-44f0-82fd-4db228063ca6.glb" },
+    { "id": "motorbike", "name": "Motorcycle", "author": "Poly by Google", "license": "CC BY 3.0", "page": "https://poly.pizza/m/dse64pqMKAR", "url": "https://static.poly.pizza/f7635710-7cfa-4768-ad70-8366ab485358.glb" },
+    { "id": "man", "name": "Man in Long Sleeves", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/DLptRuewTn", "url": "https://static.poly.pizza/e6019b9f-aed0-400c-8df4-ce5b648e9b82.glb" },
+    { "id": "woman", "name": "Woman in Dress", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/zMyPlQXBzq", "url": "https://static.poly.pizza/a642af96-e239-4c5f-b50d-7661ff51deec.glb" },
+    { "id": "truck", "name": "Truck", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/cXw6oiFtZ8", "url": "https://static.poly.pizza/f4b28921-b45e-4653-b54c-c3976e4ea0fe.glb" },
+    { "id": "car", "name": "Car", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/unqqkULtRU", "url": "https://static.poly.pizza/d35173c8-6078-4367-8f87-b1f2599f0bb7.glb" },
+    { "id": "taxi", "name": "Taxi", "author": "Kay Lousberg", "license": "CC0", "page": "https://poly.pizza/m/u5PhZQ35XG", "url": "https://static.poly.pizza/f3892479-91f2-4407-939e-f169c51467a3.glb" },
+    { "id": "toto", "name": "Golf cart", "author": "Eric Wilson", "license": "CC BY 3.0", "page": "https://poly.pizza/m/cHsYy--qKC0", "url": "https://static.poly.pizza/b31a4271-8979-4da4-ba99-dfb7f7e71ae9.glb" },
+    { "id": "crow", "name": "Bird", "author": "Poly by Google", "license": "CC BY 3.0", "page": "https://poly.pizza/m/8Ph79kHbt9s", "url": "https://static.poly.pizza/990167ef-5943-4198-9da5-e6b2ff2bcd69.glb" },
+    { "id": "kite", "name": "Kite", "author": "Poly by Google", "license": "CC BY 3.0", "page": "https://poly.pizza/m/8Qq-NaPoBt6", "url": "https://static.poly.pizza/b7c51a13-1c4c-4822-a91e-829155881d07.glb" },
+    { "id": "cloud", "name": "Cloud", "author": "Poly by Google", "license": "CC BY 3.0", "page": "https://poly.pizza/m/44cGXp6_8WD", "url": "https://static.poly.pizza/1c700295-38f5-44f1-9681-a13ef3e5aa7b.glb" },
+    { "id": "palm", "name": "Palm Tree", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/A6cKJYFsIb", "url": "https://static.poly.pizza/4c17decd-3087-4afe-9611-cfd92cca47cd.glb" },
+    { "id": "bush", "name": "Bush", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/ooG6CkLyE8", "url": "https://static.poly.pizza/6bbb833e-26cb-4bf9-ae67-a31b98e30bd9.glb" },
+    { "id": "building-small", "name": "Small Building", "author": "Kenney", "license": "CC0", "page": "https://poly.pizza/m/gyjF60t7CG", "url": "https://static.poly.pizza/23f5c878-1de4-4816-b227-9fc79adb6216.glb" },
+    { "id": "building-large", "name": "Large Building", "author": "Kenney", "license": "CC0", "page": "https://poly.pizza/m/ppwtREejXg", "url": "https://static.poly.pizza/b946d1a0-babe-4249-9964-5c3368f706d5.glb" },
+    { "id": "building-shop", "name": "Building", "author": "Kay Lousberg", "license": "CC0", "page": "https://poly.pizza/m/qOhhGLftam", "url": "https://static.poly.pizza/878d8f0d-cf0b-41ef-a6ab-94bd1aeb23dd.glb" },
+    { "id": "streetlight", "name": "Street Light", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/nFwrlcLvM5", "url": "https://static.poly.pizza/9a8aac3e-d1ee-4860-b294-edca62ef50be.glb" },
+    { "id": "mountains", "name": "Mountain Group", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/a52gSEEq8X", "url": "https://static.poly.pizza/f01e8d13-d978-4d21-8980-d03b907fe362.glb" }
+  ]
+}

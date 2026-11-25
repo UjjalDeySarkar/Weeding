@@ -8,6 +8,7 @@ import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url'
 import { wedding } from '@/config/wedding'
 import { useLang } from '@/i18n/context'
 import { mapsEmbedUrl, mapsSearchUrl } from '@/lib/links'
+import { hasWebGL } from '@/lib/utils'
 import { MapLoading } from './MapLoading'
 import { toSatellite } from './satelliteStyle'
 
@@ -33,15 +34,6 @@ const PIN_SVG = `<svg viewBox="0 0 44 56" width="44" height="56" aria-hidden="tr
   <circle cx="22" cy="21" r="12" fill="#fbf5ea"/>
   <path d="M22 27 C 15 22.5 15.5 16 19 16 C 20.6 16 21.5 17 22 18 C 22.5 17 23.4 16 25 16 C 28.5 16 29 22.5 22 27Z" fill="#a51c1c"/>
 </svg>`
-
-function hasWebGL() {
-  try {
-    const canvas = document.createElement('canvas')
-    return Boolean(canvas.getContext('webgl2') ?? canvas.getContext('webgl'))
-  } catch {
-    return false
-  }
-}
 
 /** Venue pin as a DOM element for the MapLibre marker; hidden until the camera lands */
 function createPin(label: string) {
