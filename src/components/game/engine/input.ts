@@ -1,3 +1,5 @@
+import { wrapAngle } from './course'
+
 /** What the guest is pressing, from the keyboard or the on-screen buttons */
 export interface Controls {
   /** −1 left … 1 right */
@@ -14,6 +16,72 @@ export interface Controls {
 export type ControlMode = 'car' | 'train' | 'plane' | 'none'
 
 export const createControls = (): Controls => ({ steer: 0, throttle: 0, brake: 0, pitch: 0 })
+
+/** Where the guest has dragged the view: turned around the vehicle (yaw) and raised (pitch), in radians */
+export class Look {
+  yaw = 0
+  pitch = 0
+  dragging = false
+  private idle = 0
+
+  /** A drag in screen widths (`dx`) and pixels (`dy`): one width is a full turn */
+  drag(dx: number, dy: number) {
+    this.yaw = wrapAngle(this.yaw - dx * Math.PI * 2)
+    this.pitch = Math.min(1.2, Math.max(-1, this.pitch + dy * 0.005))
+    this.idle = 0
+  }
+
+  /** Let go while on the move and, after a moment, the view swings back behind */
+  settle(dt: number, moving: boolean) {
+    this.idle = this.dragging || !moving ? 0 : this.idle + dt
+    if (this.idle < 2.5) return
+    const keep = Math.exp(-3 * dt)
+    this.yaw *= keep
+    this.pitch *= keep
+  }
+
+  reset() {
+    this.yaw = this.pitch = this.idle = 0
+  }
+}
+
+/** Drag with the mouse or a finger to look around. Returns a cleanup function. */
+export function bindLook(element: HTMLElement, look: Look) {
+  let pointer: number | null = null
+  let x = 0
+  let y = 0
+  const onDown = (e: PointerEvent) => {
+    if (pointer !== null || e.button !== 0) return
+    pointer = e.pointerId
+    x = e.clientX
+    y = e.clientY
+    look.dragging = true
+    element.setPointerCapture(e.pointerId)
+  }
+  const onMove = (e: PointerEvent) => {
+    if (e.pointerId !== pointer) return
+    look.drag((e.clientX - x) / element.clientWidth, e.clientY - y)
+    x = e.clientX
+    y = e.clientY
+  }
+  const onEnd = (e: PointerEvent) => {
+    if (e.pointerId !== pointer) return
+    pointer = null
+    look.dragging = false
+  }
+  element.addEventListener('pointerdown', onDown)
+  element.addEventListener('pointermove', onMove)
+  element.addEventListener('pointerup', onEnd)
+  element.addEventListener('pointercancel', onEnd)
+  element.addEventListener('lostpointercapture', onEnd)
+  return () => {
+    element.removeEventListener('pointerdown', onDown)
+    element.removeEventListener('pointermove', onMove)
+    element.removeEventListener('pointerup', onEnd)
+    element.removeEventListener('pointercancel', onEnd)
+    element.removeEventListener('lostpointercapture', onEnd)
+  }
+}
 
 const KEYS = new Set(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'KeyA', 'KeyD', 'KeyW', 'KeyS'])
 

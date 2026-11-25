@@ -175,7 +175,7 @@ export function airLeg(ctx: Ctx): Leg {
   let taxi = 0
   /** How far right of the centre line it touched down; eased out while rolling */
   let drift = 0
-  const chase = new Chase()
+  const chase = new Chase(ctx.look)
   const focus = new Vector3()
   const flying: Controls = { steer: 0, throttle: 0, brake: 0, pitch: 0 }
   const forward = new Vector3()

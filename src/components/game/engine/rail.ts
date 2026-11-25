@@ -154,7 +154,7 @@ export function railLeg(ctx: Ctx): Leg {
   let arrived = 0
   let warnedEnd = false
   let finished = false
-  const chase = new Chase()
+  const chase = new Chase(ctx.look)
   const focus = new Vector3()
   const nose = () => train.s + FRONT / 2
 

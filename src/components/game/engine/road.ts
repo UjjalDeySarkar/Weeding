@@ -297,7 +297,7 @@ export function roadLeg(ctx: Ctx, kind: 'bus' | 'bike'): Leg {
   let stuckFor = 0
   let warned = false
   let parked = 0
-  const chase = new Chase()
+  const chase = new Chase(ctx.look)
   const focus = new Vector3()
   const camFrom = new Vector3()
   const camAt = new Vector3()

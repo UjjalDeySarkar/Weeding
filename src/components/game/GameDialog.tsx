@@ -262,7 +262,7 @@ export function GameDialog({ onClose }: { onClose: () => void }) {
       className="fixed inset-0 m-0 h-dvh max-h-none w-dvw max-w-none overflow-hidden bg-ink p-0 text-ink backdrop:bg-ink/80"
     >
       {/* A fresh canvas per game: a canvas whose WebGL context was released can't make a new one */}
-      <canvas key={run?.key} ref={canvas} aria-hidden="true" className={cn('absolute inset-0 block size-full touch-none', !playing && 'invisible')} />
+      <canvas key={run?.key} ref={canvas} aria-hidden="true" className={cn('absolute inset-0 block size-full cursor-grab touch-none select-none active:cursor-grabbing', !playing && 'invisible')} />
 
       {/* Menus */}
       {step !== 'play' && (
@@ -404,6 +404,11 @@ export function GameDialog({ onClose }: { onClose: () => void }) {
             </button>
           </div>
 
+          {/* Phones have no key hints: say once, early on, that the view can be dragged */}
+          {touch && mode !== 'none' && hud.leg === 1 && hud.progress < 0.12 && (
+            <p className="pointer-events-none absolute inset-x-0 top-36 mx-auto w-fit rounded-full bg-ink/45 px-3 py-1 text-xs text-paper/90 bn:text-sm">{t.game.lookAround}</p>
+          )}
+
           <div aria-live="polite" className="pointer-events-none absolute inset-x-0 top-20 flex justify-center px-4">
             {toast && (
               <p key={toast.id} className="animate-[toast_2.8s_ease-out_forwards] rounded-2xl border-2 border-zari bg-paper/95 px-5 py-2.5 text-center font-display text-xl text-sindoor shadow-xl sm:text-2xl">
@@ -417,7 +422,11 @@ export function GameDialog({ onClose }: { onClose: () => void }) {
               <span className="rounded-full bg-ink/55 px-3 py-1 font-display text-lg text-paper tabular-nums">
                 {number(hud.speedKmh, lang)} <span className="text-xs bn:text-sm">{t.game.kmh}</span>
               </span>
-              {!touch && <span className="rounded-full bg-ink/45 px-3 py-1 text-xs text-paper/90 bn:text-sm">{t.game.keys[mode]}</span>}
+              {!touch && (
+                <span className="rounded-full bg-ink/45 px-3 py-1 text-center text-xs text-paper/90 bn:text-sm">
+                  {t.game.keys[mode]} · {t.game.lookAround}
+                </span>
+              )}
             </div>
           )}
 

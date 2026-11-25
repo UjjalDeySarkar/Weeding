@@ -156,6 +156,7 @@ const en = {
     restart: 'Start over',
     paused: 'Paused',
     controls: { left: 'Steer left', right: 'Steer right', gas: 'Go', brake: 'Brake', up: 'Climb', down: 'Dive' },
+    lookAround: 'drag to look around',
     keys: {
       car: '← → steer · ↑ go · ↓ brake',
       train: '↑ go · ↓ brake',
@@ -366,6 +367,7 @@ const bn: Strings = {
     restart: 'আবার শুরু',
     paused: 'খেলা থেমে আছে',
     controls: { left: 'বাঁদিকে', right: 'ডানদিকে', gas: 'চলো', brake: 'ব্রেক', up: 'উপরে', down: 'নিচে' },
+    lookAround: 'টেনে চারদিক দেখুন',
     keys: {
       car: '← → স্টিয়ারিং · ↑ চলো · ↓ ব্রেক',
       train: '↑ চলো · ↓ ব্রেক',

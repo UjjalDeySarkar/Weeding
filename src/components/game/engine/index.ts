@@ -2,7 +2,7 @@ import { PerspectiveCamera, Scene, WebGLRenderer } from 'three'
 import type { Character, Mode, Trip } from '../trips'
 import { airLeg } from './air'
 import { loadModels, releaseModels, type ModelId } from './assets'
-import { bindKeyboard, type ControlMode, type Controls } from './input'
+import { Look, bindKeyboard, bindLook, type ControlMode, type Controls } from './input'
 import type { Ctx, Leg, Message } from './leg'
 import { railLeg } from './rail'
 import { roadLeg } from './road'
@@ -82,12 +82,14 @@ export async function runGame(options: GameOptions): Promise<Game> {
   let shake = 0
   let stage: 1 | 2 = 1
   let finale = false
+  const look = new Look()
   const ctx: Ctx = {
     scene,
     camera,
     env,
     models,
     controls,
+    look,
     trip,
     character,
     reduceMotion,
@@ -105,7 +107,8 @@ export async function runGame(options: GameOptions): Promise<Game> {
   }
 
   let leg: Leg = trip.mode === 'plane' ? airLeg(ctx) : trip.mode === 'train' ? railLeg(ctx) : roadLeg(ctx, 'bus')
-  const unbind = bindKeyboard(controls, () => leg.mode)
+  const unbindKeyboard = bindKeyboard(controls, () => leg.mode)
+  const unbindLook = bindLook(canvas, look)
 
   let last = performance.now()
   let time = 0
@@ -114,6 +117,7 @@ export async function runGame(options: GameOptions): Promise<Game> {
     const dt = Math.min(0.05, Math.max(0, (now - last) / 1000))
     last = now
     time += dt
+    look.settle(dt, Math.abs(leg.speed) > 1)
     leg.update(dt, time)
     if (shake > 0) {
       camera.position.x += (Math.random() - 0.5) * shake * 0.5
@@ -129,6 +133,7 @@ export async function runGame(options: GameOptions): Promise<Game> {
     if (leg.done && stage === 1) {
       leg.dispose()
       stage = 2
+      look.reset()
       leg = roadLeg(ctx, 'bike')
       camera.near = 0.3
       camera.far = 9000
@@ -151,7 +156,8 @@ export async function runGame(options: GameOptions): Promise<Game> {
     },
     dispose() {
       renderer.setAnimationLoop(null)
-      unbind()
+      unbindKeyboard()
+      unbindLook()
       observer.disconnect()
       leg.dispose()
       env.dispose()

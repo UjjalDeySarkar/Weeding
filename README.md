@@ -78,7 +78,7 @@ After the venue, guests can play their way to the wedding in 3D:
 3. **Ride a motorbike to the biye-bari** along the shape of the real route from that hub, as the sun sets: keep left, mind the totos, collect rosogollas.
 4. **Arrive** at Baghajatin Sporting Club's gate, dressed with banana plants, marigolds and fairy lights. The guest poses in the gateway and claps, and a card shows the date, the rosogolla count and directions from the hub they came in by.
 
-Arrow keys or WASD on a computer, big buttons on a phone. There's no game over. three.js and the 3D models load only when someone presses *Play*, so the invitation itself stays light.
+Arrow keys or WASD on a computer, big buttons on a phone, and drag anywhere to look all around. There's no game over. three.js and the 3D models load only when someone presses *Play*, so the invitation itself stays light.
 
 ---
 

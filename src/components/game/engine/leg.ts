@@ -1,8 +1,8 @@
-import { Vector3, type PerspectiveCamera, type Scene } from 'three'
+import { MathUtils, Vector3, type PerspectiveCamera, type Scene } from 'three'
 import type { L } from '@/config/types'
 import type { Character, Trip } from '../trips'
 import type { Models } from './assets'
-import type { ControlMode, Controls } from './input'
+import type { ControlMode, Controls, Look } from './input'
 import type { Environment } from './scenery'
 
 /** Things the game tells the guest; the dialog words them in the current language */
@@ -33,6 +33,7 @@ export interface Ctx {
   env: Environment
   models: Models
   controls: Controls
+  look: Look
   trip: Trip
   character: Character
   reduceMotion: boolean
@@ -65,6 +66,12 @@ export class Chase {
   private readonly wantPosition = new Vector3()
   private readonly wantTarget = new Vector3()
   private ready = false
+  private readonly aim = new Vector3()
+  private readonly look: Look
+
+  constructor(look: Look) {
+    this.look = look
+  }
 
   /** Behind `x, y, z` by `back` along `heading`, `up` above and `side` to the right, looking `ahead` in front */
   follow(
@@ -89,7 +96,33 @@ export class Chase {
       this.target.lerp(this.wantTarget, 1 - Math.exp(-stiffness * 1.6 * dt))
     }
     camera.position.copy(this.position)
-    camera.lookAt(this.target)
+    this.aim.copy(this.target)
+    if (this.look.yaw || this.look.pitch) this.swing(camera.position, x, y + lift, z)
+    camera.lookAt(this.aim)
+  }
+
+  /** Turns the camera and its aim around the vehicle by what the guest has dragged */
+  private swing(eye: Vector3, x: number, height: number, z: number) {
+    const { yaw, pitch } = this.look
+    const sin = Math.sin(yaw)
+    const cos = Math.cos(yaw)
+    const dx = eye.x - x
+    const dz = eye.z - z
+    const flat = Math.hypot(dx, dz)
+    const reach = Math.hypot(flat, eye.y - height)
+    const wanted = Math.atan2(eye.y - height, flat) + pitch
+    // Never under the ground, never straight overhead
+    const angle = MathUtils.clamp(wanted, 0.04, 1.35)
+    const k = (reach * Math.cos(angle)) / flat
+    eye.set(x + (dx * cos + dz * sin) * k, height + reach * Math.sin(angle), z + (dz * cos - dx * sin) * k)
+
+    const ax = this.aim.x - x
+    const az = this.aim.z - z
+    // Seen from higher up, the vehicle moves to the middle of the picture
+    const ahead = 1 - MathUtils.clamp(pitch / 0.8, 0, 1)
+    this.aim.set(x + (ax * cos + az * sin) * ahead, height + (this.aim.y - height) * ahead, z + (az * cos - ax * sin) * ahead)
+    // Dragged on past ground level: tip the view up to the sky
+    this.aim.y += (angle - Math.min(angle, wanted)) * reach * 1.5
   }
 
   /** Puts the camera somewhere directly (cutscenes); `follow` then eases on from there */
