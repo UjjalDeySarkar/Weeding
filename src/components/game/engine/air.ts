@@ -1,20 +1,32 @@
-import { Group, Matrix4, Mesh, MeshLambertMaterial, Quaternion, TorusGeometry, Vector3, type Object3D } from 'three'
+import { Group, Matrix4, Mesh, MeshLambertMaterial, Quaternion, TorusGeometry, Vector3 } from 'three'
 import type { Point } from '@/lib/spline'
 import { disposeTree, instances, spawn } from './assets'
 import { Course, SHORTEN, random, ribbon, straightEnd, winding, wrapAngle } from './course'
 import { Chase, type Ctx, type Leg } from './leg'
-import { runway, terminal } from './places'
+import { Animated } from './people'
+import { apron, runway, terminal } from './places'
 import { DAY, Rosogollas, groundFor, himalaya, type Spot } from './scenery'
 import type { Controls } from './input'
 import { Plane } from './vehicles'
 
 /**
- * The flight: bank and climb through marigold rings, dodge crows and kites, collect rosogollas
+ * The flight: bank and climb through marigold rings, dodge the phoenixes, collect rosogollas
  * in the sky. Near Bagdogra the autopilot takes over and lands on the runway.
  */
 
 const CRUISE = 320
 const RING = 15
+const BIRD_RADIUS = 3
+
+// On the ground, in metres: along the runway from its threshold, and left of its centre line
+const TURN_AT = 500
+const TURN_RADIUS = 60
+const GATE_LEFT = 70
+const TERMINAL_LEFT = 110
+const TURN_LENGTH = (TURN_RADIUS * Math.PI) / 2
+/** Taxi distance to the stand: runway, quarter turn, then straight at the terminal */
+const PARK = TURN_AT + TURN_LENGTH + GATE_LEFT - TURN_RADIUS
+const TAXI_SPEED = 18
 
 interface Ring {
   mesh: Mesh<TorusGeometry, MeshLambertMaterial>
@@ -26,11 +38,10 @@ interface Ring {
 }
 
 interface Flyer {
-  object: Object3D
+  bird: Animated
   base: Vector3
   phase: number
   hit: boolean
-  radius: number
 }
 
 export function airLeg(ctx: Ctx): Leg {
@@ -64,12 +75,15 @@ export function airLeg(ctx: Ctx): Leg {
   }
   const threshold = course.at(L)
   const runwayGroup = new Group()
-  runwayGroup.add(runway())
+  // The stand lies beside the runway, between the turn and the terminal (local +X is left)
+  const stand = apron(73, 150)
+  stand.position.set(23 + 73 / 2, 0.05, TURN_AT - 10 + 150 / 2)
+  runwayGroup.add(runway(), stand)
   runwayGroup.position.set(threshold.x, 0, threshold.z)
   runwayGroup.rotation.y = threshold.heading
   group.add(runwayGroup)
   {
-    const p = course.side(L + 560, -110)
+    const p = course.side(L + TURN_AT + TURN_RADIUS, -TERMINAL_LEFT)
     const building = terminal(trip.hub.name)
     building.position.set(p.x, 0, p.z)
     building.rotation.y = p.heading - Math.PI / 2
@@ -78,16 +92,15 @@ export function airLeg(ctx: Ctx): Leg {
   const peaks = himalaya(models.get('mountains'), course, 6500)
   group.add(peaks.group)
 
-  // ── Clouds, all in one instanced draw
-  const cloudModel = models.get('cloud')
-  if (cloudModel) {
-    const transforms: Matrix4[] = []
-    for (let s = 0; s < L; s += 90) {
+  // ── Clouds, instanced: three kinds taking turns
+  {
+    const kinds = (['cloud', 'cloud-soft', 'cloud-fluffy'] as const).map((id) => ({ id, transforms: [] as Matrix4[] }))
+    for (let s = 0, i = 0; s < L; s += 90, i++) {
       const p = course.side(s, (rand() < 0.5 ? -1 : 1) * (60 + rand() * 1100))
       const k = 0.5 + rand() * 1.2
-      transforms.push(new Matrix4().compose(new Vector3(p.x, 180 + rand() * 360, p.z), new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), rand() * 6), new Vector3(k, k, k)))
+      kinds[i % kinds.length].transforms.push(new Matrix4().compose(new Vector3(p.x, 180 + rand() * 360, p.z), new Quaternion().setFromAxisAngle(new Vector3(0, 1, 0), rand() * 6), new Vector3(k, k, k)))
     }
-    group.add(instances(cloudModel, transforms))
+    for (const { id, transforms } of kinds) group.add(instances(models.get(id)!, transforms))
   }
 
   // ── Rings to fly through, with rosogollas inside
@@ -117,21 +130,24 @@ export function airLeg(ctx: Ctx): Leg {
   const sweets = new Rosogollas(spots, 3)
   group.add(sweets.group)
 
-  // ── Crows and kites in the way
+  // ── Phoenixes in the way
   const flyers: Flyer[] = []
   for (let s = 900; s < descentFrom - 300; s += 330 + rand() * 260) {
-    const kite = rand() < 0.4
     const p = course.side(s, (rand() - 0.5) * 90)
     const y = CRUISE + (rand() - 0.5) * 80
-    const count = kite ? 1 : 3 + Math.floor(rand() * 3)
+    const count = 2 + Math.floor(rand() * 3)
     for (let k = 0; k < count; k++) {
-      const object = spawn(models.get(kite ? 'kite' : 'crow')!)
-      object.scale.setScalar(kite ? 1.6 : 1.4)
+      const bird = new Animated(models.get('phoenix')!)
+      const { object } = bird
       const base = new Vector3(p.x + (rand() - 0.5) * 22, y + (rand() - 0.5) * 14, p.z + (rand() - 0.5) * 22)
       object.position.copy(base)
       object.rotation.y = p.heading + Math.PI + (rand() - 0.5)
       group.add(object)
-      flyers.push({ object, base, phase: rand() * 6, hit: false, radius: kite ? 3 : 2.6 })
+      const phase = rand() * 6
+      bird.play('Fly')
+      // Not all flapping in step
+      bird.update(phase)
+      flyers.push({ bird, base, phase, hit: false })
     }
   }
 
@@ -156,6 +172,9 @@ export function airLeg(ctx: Ctx): Leg {
   let lastBump = -10
   let lastTurnBack = -10
   let stopped = 0
+  let taxi = 0
+  /** How far right of the centre line it touched down; eased out while rolling */
+  let drift = 0
   const chase = new Chase()
   const focus = new Vector3()
   const flying: Controls = { steer: 0, throttle: 0, brake: 0, pitch: 0 }
@@ -191,16 +210,18 @@ export function airLeg(ctx: Ctx): Leg {
     }
   }
 
-  const updateFlyers = (time: number) => {
+  const updateFlyers = (dt: number, time: number) => {
     for (const f of flyers) {
-      if (!f.object.visible) continue
-      f.object.position.set(f.base.x + Math.sin(time * 0.7 + f.phase) * 4, f.base.y + Math.sin(time * 2 + f.phase) * 1.5, f.base.z + Math.cos(time * 0.6 + f.phase) * 4)
-      f.object.rotation.z = Math.sin(time * 3 + f.phase) * 0.25
+      const { object } = f.bird
+      if (!object.visible) continue
+      // Wings only need to beat where they can be seen
+      if (Math.abs(object.position.x - plane.x) + Math.abs(object.position.z - plane.z) < 900) f.bird.update(dt)
+      object.position.set(f.base.x + Math.sin(time * 0.7 + f.phase) * 4, f.base.y + Math.sin(time * 2 + f.phase) * 1.5, f.base.z + Math.cos(time * 0.6 + f.phase) * 4)
       if (phase !== 'fly' || f.hit) continue
-      const d = f.object.position.distanceTo(offsetV.set(plane.x, plane.y, plane.z))
-      if (d < f.radius + 6) {
+      const d = object.position.distanceTo(offsetV.set(plane.x, plane.y, plane.z))
+      if (d < BIRD_RADIUS + 6) {
         f.hit = true
-        f.object.visible = false
+        object.visible = false
         plane.roll += (rand() - 0.5) * 0.8
         if (clock - lastBump > 1) {
           lastBump = clock
@@ -264,24 +285,32 @@ export function airLeg(ctx: Ctx): Leg {
         if (s >= L - 5 && plane.y < 1.2) {
           plane.y = 0
           phase = 'rollout'
+          taxi = s - L
+          drift = proj.offset
           ctx.shake(0.3)
           ctx.say({ key: 'touchdown' })
         }
       } else {
-        // Brake down the runway
+        // Brake down the runway, turn off onto the stand and stop facing the terminal
         plane.pitch *= 1 - Math.min(1, dt * 3)
-        plane.speed = Math.max(0, plane.speed - 6 * dt)
-        const p = course.at(s + 50)
-        plane.heading += wrapAngle(Math.atan2(p.x - plane.x, p.z - plane.z) - plane.heading) * (1 - Math.exp(-2 * dt))
-        plane.x += Math.sin(plane.heading) * plane.speed * dt
-        plane.z += Math.cos(plane.heading) * plane.speed * dt
-        // Slowed to taxiing speed: welcome to Bagdogra
-        if (plane.speed < 8 && (stopped += dt) > 0.5) done = true
+        const limit = taxi < TURN_AT ? Math.sqrt(TAXI_SPEED ** 2 + 9 * (TURN_AT - taxi)) : Math.max(2, Math.sqrt(6 * (PARK - taxi)))
+        plane.speed = taxi < PARK ? Math.min(plane.speed, limit) : 0
+        taxi = Math.min(PARK, taxi + plane.speed * dt)
+        const turned = Math.max(0, Math.min(Math.PI / 2, (taxi - TURN_AT) / TURN_RADIUS))
+        const along = Math.min(taxi, TURN_AT) + TURN_RADIUS * Math.sin(turned)
+        const left = TURN_RADIUS * (1 - Math.cos(turned)) + Math.max(0, taxi - TURN_AT - TURN_LENGTH)
+        drift *= Math.exp(-2 * dt)
+        const p = course.side(L + along, drift - left)
+        plane.x = p.x
+        plane.z = p.z
+        plane.heading += wrapAngle(threshold.heading + turned - plane.heading) * (1 - Math.exp(-6 * dt))
+        // A moment at the stand: welcome to Bagdogra
+        if (taxi >= PARK && (stopped += dt) > 2.5) done = true
       }
 
       const got = sweets.update(clock, plane.x, plane.y, plane.z, 7)
       if (got) ctx.score(got)
-      updateFlyers(time)
+      updateFlyers(dt, time)
 
       body.position.set(plane.x, plane.y, plane.z)
       body.rotation.set(-plane.pitch, plane.heading, plane.roll)
@@ -299,6 +328,7 @@ export function airLeg(ctx: Ctx): Leg {
 
     dispose() {
       ringGeometry.dispose()
+      for (const f of flyers) f.bird.dispose()
       disposeTree(group)
     },
   }

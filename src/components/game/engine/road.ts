@@ -219,9 +219,9 @@ export function roadLeg(ctx: Ctx, kind: 'bus' | 'bike'): Leg {
   const vehicle = spawn(model(bike ? 'motorbike' : 'bus'))
   lean.add(vehicle)
   body.add(lean)
-  const shadow = blobShadow(bike ? 1 : 3.2, bike ? 2.4 : 11.6)
+  const shadow = blobShadow(bike ? 1 : 2.8, bike ? 2.4 : 13)
   group.add(body, shadow)
-  const playerLength = bike ? 1.4 : 10
+  const playerLength = bike ? 1.4 : 11.5
   const playerRadius = bike ? 0.7 : 1.5
 
   const guest = bike ? new Guest(model(ctx.character), ctx.character) : null
@@ -231,7 +231,7 @@ export function roadLeg(ctx: Ctx, kind: 'bus' | 'bike'): Leg {
   // ── Traffic
   const npcModels: ModelId[] = bike ? ['toto', 'toto', 'car', 'taxi'] : ['truck', 'truck', 'car', 'taxi', 'car']
   const npcs: Npc[] = []
-  const npcLength: Partial<Record<ModelId, number>> = { truck: 7.5, car: 4.3, taxi: 4.4, toto: 2.9, bus: 11 }
+  const npcLength: Partial<Record<ModelId, number>> = { truck: 7.5, car: 4.3, taxi: 4.4, toto: 2.9 }
   const placeNpc = (npc: Npc, near: number) => {
     for (let tries = 0; tries < 6; tries++) {
       npc.dir = rand() < 0.45 ? -1 : 1
@@ -381,7 +381,7 @@ export function roadLeg(ctx: Ctx, kind: 'bus' | 'bike'): Leg {
       }
     }
     for (const npc of npcs) if (npc.object.visible && Math.abs(npc.s - s) < 30) test(npc.x, npc.z, npc.heading, npc.length, npc.radius)
-    for (const bus of parkedBuses) test(bus.x, bus.z, bus.heading, 10.5, 1.35)
+    for (const bus of parkedBuses) test(bus.x, bus.z, bus.heading, 12, 1.35)
     if (deepest > 0) bump(nx, nz, deepest)
 
     for (const hole of holes) {

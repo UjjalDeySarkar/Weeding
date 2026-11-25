@@ -23,6 +23,8 @@ interface Spec {
   fit: ['x' | 'y' | 'z', number]
   /** Meshes to leave out, by name */
   drop?: RegExp
+  /** Layers of see-through puffs, which must not hide each other */
+  soft?: boolean
 }
 
 // Sizes are in metres. Orientations were checked against each model (see models.json for sources).
@@ -32,8 +34,7 @@ const SPECS = {
   // The wagon keeps the front's scale: 11.2 vs 12.2 model units long
   'train-front': { yaw: Math.PI / 2, fit: ['z', 22] },
   'train-wagon': { yaw: Math.PI / 2, fit: ['z', 20.2] },
-  // Faces backwards; its baked-on ground shadow goes, the game draws its own
-  bus: { yaw: Math.PI, drop: /^ShadowPlane/, fit: ['z', 11] },
+  bus: { fit: ['z', 12.5] },
   motorbike: { fit: ['z', 2.1] },
   man: { fit: ['y', 1.75] },
   woman: { fit: ['y', 1.66] },
@@ -42,10 +43,11 @@ const SPECS = {
   // A Porsche 911; its baked-on ground shadow goes, the game draws its own
   taxi: { drop: /^Plane_0$/, fit: ['z', 4.4] },
   toto: { yaw: Math.PI / 2, fit: ['z', 2.9] },
-  crow: { fit: ['x', 3.2] },
-  // The kite's string runs off for kilometres
-  kite: { drop: /^Line/, fit: ['y', 3.4] },
-  cloud: { fit: ['x', 70] },
+  // Modelled head towards +X
+  phoenix: { yaw: -Math.PI / 2, fit: ['z', 7] },
+  cloud: { soft: true, fit: ['x', 70] },
+  'cloud-soft': { soft: true, fit: ['x', 70] },
+  'cloud-fluffy': { soft: true, fit: ['x', 70] },
   palm: { fit: ['y', 8] },
   bush: { fit: ['y', 1.4] },
   'building-small': { fit: ['y', 7] },
@@ -101,7 +103,10 @@ function prepare(id: ModelId, scene: Group, clips: AnimationClip[]): Model {
     node.material = Array.isArray(node.material) ? node.material.map(toLambert) : toLambert(node.material)
     // Copies share these; `disposeTree` leaves them alone and `releaseModels` frees them
     node.geometry.userData.shared = true
-    for (const material of [node.material].flat()) material.userData.shared = true
+    for (const material of [node.material].flat()) {
+      material.userData.shared = true
+      if (spec.soft) material.depthWrite = false
+    }
   })
 
   // root → fit (scale + offset) → turn (yaw) → the glTF scene

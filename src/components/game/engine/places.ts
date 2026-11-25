@@ -118,6 +118,13 @@ export function runway(length = 1300, width = 46) {
   return mesh
 }
 
+/** Concrete where planes park, flat on the ground and centred on the origin */
+export function apron(width: number, length: number) {
+  const mesh = new Mesh(new PlaneGeometry(width, length), lambert('#8d8a84'))
+  mesh.rotation.x = -Math.PI / 2
+  return mesh
+}
+
 /** Terminal building facing +Z with the airport's name on top, plus a control tower */
 export function terminal(name: L) {
   const group = new Group()

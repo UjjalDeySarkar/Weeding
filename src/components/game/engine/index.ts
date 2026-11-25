@@ -45,7 +45,7 @@ export interface Game {
 
 /** Models each first leg needs; the bike ride's are added to every trip */
 const FIRST_LEG: Record<Mode, ModelId[]> = {
-  plane: ['plane', 'crow', 'kite', 'cloud', 'mountains'],
+  plane: ['plane', 'phoenix', 'cloud', 'cloud-soft', 'cloud-fluffy', 'mountains'],
   train: ['train-front', 'train-wagon', 'palm', 'bush', 'building-small', 'building-shop', 'mountains'],
   bus: ['bus', 'truck', 'car', 'taxi', 'palm', 'bush', 'building-small', 'building-shop', 'streetlight', 'mountains'],
 }
