@@ -1,5 +1,5 @@
 {
-  "source": "Poly Pizza (poly.pizza). Run `npm run models` to download and optimize into public/game/models/.",
+  "source": "Poly Pizza (poly.pizza), except entries without a url. Run `npm run models` to download and optimize into public/game/models/; entries without a url were added by hand and are left as committed.",
   "models": [
     { "id": "plane", "name": "Airplane", "author": "Poly by Google", "license": "CC BY 3.0", "page": "https://poly.pizza/m/0ZVPPr6X6gM", "url": "https://static.poly.pizza/1faa14d6-dee8-4bcc-a001-44d49b5a4866.glb" },
     { "id": "train-front", "name": "High Speed Front", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/mJZDSqyzlk", "url": "https://static.poly.pizza/18e950a2-e71a-4479-8865-31de94e5b3d0.glb" },
@@ -9,8 +9,8 @@
     { "id": "man", "name": "Man in Long Sleeves", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/DLptRuewTn", "url": "https://static.poly.pizza/e6019b9f-aed0-400c-8df4-ce5b648e9b82.glb" },
     { "id": "woman", "name": "Woman in Dress", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/zMyPlQXBzq", "url": "https://static.poly.pizza/a642af96-e239-4c5f-b50d-7661ff51deec.glb" },
     { "id": "truck", "name": "Truck", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/cXw6oiFtZ8", "url": "https://static.poly.pizza/f4b28921-b45e-4653-b54c-c3976e4ea0fe.glb" },
-    { "id": "car", "name": "Car", "author": "Quaternius", "license": "CC0", "page": "https://poly.pizza/m/unqqkULtRU", "url": "https://static.poly.pizza/d35173c8-6078-4367-8f87-b1f2599f0bb7.glb" },
-    { "id": "taxi", "name": "Taxi", "author": "Kay Lousberg", "license": "CC0", "page": "https://poly.pizza/m/u5PhZQ35XG", "url": "https://static.poly.pizza/f3892479-91f2-4407-939e-f169c51467a3.glb" },
+    { "id": "car", "name": "car for games unity (optimized)", "author": "Unity (shehab house)", "license": "CC BY 4.0", "page": "https://sketchfab.com/3d-models/car-for-games-unity-4d9bbde680fe41349d7ad2b4672a720b" },
+    { "id": "taxi", "name": "Porsche 911 Carrera 4S (simplified, coat layer removed)", "author": "Karol Miklas", "license": "CC BY-SA 4.0", "page": "https://sketchfab.com/3d-models/free-porsche-911-carrera-4s-d01b254483794de3819786d93e0e1ebf" },
     { "id": "toto", "name": "Golf cart", "author": "Eric Wilson", "license": "CC BY 3.0", "page": "https://poly.pizza/m/cHsYy--qKC0", "url": "https://static.poly.pizza/b31a4271-8979-4da4-ba99-dfb7f7e71ae9.glb" },
     { "id": "crow", "name": "Bird", "author": "Poly by Google", "license": "CC BY 3.0", "page": "https://poly.pizza/m/8Ph79kHbt9s", "url": "https://static.poly.pizza/990167ef-5943-4198-9da5-e6b2ff2bcd69.glb" },
     { "id": "kite", "name": "Kite", "author": "Poly by Google", "license": "CC BY 3.0", "page": "https://poly.pizza/m/8Qq-NaPoBt6", "url": "https://static.poly.pizza/b7c51a13-1c4c-4822-a91e-829155881d07.glb" },

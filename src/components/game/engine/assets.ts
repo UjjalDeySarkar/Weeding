@@ -39,8 +39,9 @@ const SPECS = {
   man: { fit: ['y', 1.75] },
   woman: { fit: ['y', 1.66] },
   truck: { fit: ['z', 7.5] },
-  car: { fit: ['z', 4.3] },
-  taxi: { fit: ['z', 4.4] },
+  car: { yaw: Math.PI, fit: ['z', 4.3] },
+  // A Porsche 911; its baked-on ground shadow goes, the game draws its own
+  taxi: { drop: /^Plane_0$/, fit: ['z', 4.4] },
   toto: { yaw: Math.PI / 2, fit: ['z', 2.9] },
   crow: { fit: ['x', 3.2] },
   // The kite's string runs off for kilometres

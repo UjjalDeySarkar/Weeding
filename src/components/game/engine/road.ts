@@ -90,8 +90,9 @@ export function roadLeg(ctx: Ctx, kind: 'bus' | 'bike'): Leg {
       ...scatter(course, rand, { models: ['palm', 'bush', 'bush'], every: 26, near: half + 2.5, far: half + 5, to: L - 40 }),
     )
     for (let s = 20, side = -1; s < L - 30; s += 32, side = -side) {
-      const p = course.side(s, side * (half + 1.2))
-      props.push({ model: 'streetlight', x: p.x, z: p.z, heading: p.heading + (side < 0 ? Math.PI / 2 : -Math.PI / 2) })
+      // Centred on its arm: this puts the pole just off the road, the lamp over it
+      const p = course.side(s, side * (half - 0.8))
+      props.push({ model: 'streetlight', x: p.x, z: p.z, heading: p.heading + (side < 0 ? -Math.PI / 2 : Math.PI / 2) })
     }
   } else {
     props.push(
@@ -102,8 +103,8 @@ export function roadLeg(ctx: Ctx, kind: 'bus' | 'bike'): Leg {
     for (const m of milestones) {
       props.push(...scatter(course, rand, { models: ['building-shop', 'building-small', 'building-small'], every: 22, near: half + 9, far: half + 15, from: m.s - 150, to: m.s + 150, faceRoad: true, scale: [0.9, 1.1] }))
       for (let s = m.s - 140, side = -1; s < m.s + 140; s += 35, side = -side) {
-        const p = course.side(s, side * (half + 1.4))
-        props.push({ model: 'streetlight', x: p.x, z: p.z, heading: p.heading + (side < 0 ? Math.PI / 2 : -Math.PI / 2) })
+        const p = course.side(s, side * (half - 0.6))
+        props.push({ model: 'streetlight', x: p.x, z: p.z, heading: p.heading + (side < 0 ? -Math.PI / 2 : Math.PI / 2) })
       }
     }
     for (let s = 120; s < L - 200; s += 220 + rand() * 120) {

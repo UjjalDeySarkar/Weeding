@@ -241,7 +241,7 @@ npx vercel --prod   # production
 - **3D models** from [Poly Pizza](https://poly.pizza/), CC0 by Quaternius, Kenney and Kay Lousberg, plus these under CC BY 3.0:
   [Airplane](https://poly.pizza/m/0ZVPPr6X6gM), [Bus](https://poly.pizza/m/9Rj7a89ypPQ), [Motorcycle](https://poly.pizza/m/dse64pqMKAR),
   [Bird](https://poly.pizza/m/8Ph79kHbt9s), [Kite](https://poly.pizza/m/8Qq-NaPoBt6) and [Cloud](https://poly.pizza/m/44cGXp6_8WD) by Poly by Google ·
-  [Golf cart](https://poly.pizza/m/cHsYy--qKC0) by Eric Wilson, tinted green as a Siliguri toto. Every model is listed in `src/components/game/models.json` and in the game's credits.
+  [Golf cart](https://poly.pizza/m/cHsYy--qKC0) by Eric Wilson, tinted green as a Siliguri toto. The two cars are from Sketchfab: [car for games unity](https://sketchfab.com/3d-models/car-for-games-unity-4d9bbde680fe41349d7ad2b4672a720b) by Unity (shehab house), CC BY 4.0, and [Porsche 911 Carrera 4S](https://sketchfab.com/3d-models/free-porsche-911-carrera-4s-d01b254483794de3819786d93e0e1ebf) by Karol Miklas, CC BY-SA 4.0, both simplified for the web (the adapted Porsche stays CC BY-SA 4.0). Every model is listed in `src/components/game/models.json` and in the game's credits.
 - **Fonts** from [Google Fonts](https://fonts.google.com/) · **icons** from [Lucide](https://lucide.dev/)
 - **Inspiration:** Bengal's *patachitra* scroll painters, and the painted *kulo* of the boron dala
 

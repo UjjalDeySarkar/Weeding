@@ -192,7 +192,7 @@ const en = {
       venueAhead: 'The biye-bari is just ahead!',
     },
     credits: '3D models',
-    creditsVia: 'free models from Poly Pizza',
+    creditsVia: 'free models from Poly Pizza and Sketchfab',
   },
   music: {
     play: 'Play music',
@@ -402,7 +402,7 @@ const bn: Strings = {
       venueAhead: 'বিয়েবাড়ি একদম সামনে!',
     },
     credits: 'ত্রিমাত্রিক মডেল',
-    creditsVia: 'পলি পিৎজার বিনামূল্যের মডেল',
+    creditsVia: 'পলি পিৎজা ও স্কেচফ্যাবের বিনামূল্যের মডেল',
   },
   music: {
     play: 'গান চালান',

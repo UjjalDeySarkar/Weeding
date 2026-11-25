@@ -20,7 +20,8 @@ const kb = (file) => `${Math.round(statSync(file).size / 1024)} KB`
 
 try {
   for (const model of models) {
-    if (only.size && !only.has(model.id)) continue
+    // No url: added by hand (Sketchfab downloads need a login), keep the committed file
+    if (!model.url || (only.size && !only.has(model.id))) continue
     const response = await fetch(model.url)
     if (!response.ok) throw new Error(`${model.id}: ${model.url} answered ${response.status}`)
     const raw = path.join(work, `${model.id}.glb`)
